@@ -9,8 +9,9 @@
 <highlight>Adding alts to your list<end>
 <tab><symbol>alts add 'alt1' 'alt2' 'alt3'
 
-<highlight>Setting the main of your alt (on your alt)<end>
-<tab><symbol>alts main 'name'
-
 <highlight>Remove alts from your list<end>
 <tab><symbol>alts rem 'alt'
+
+<red>Moderators<end>
+<highlight>Replace main for name<end>
+<tab><symbol>replacemain 'name' 'newmain'

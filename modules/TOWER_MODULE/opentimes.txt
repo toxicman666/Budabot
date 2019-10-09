@@ -1,0 +1,17 @@
+<header>::::: Opentimes/Opentimesomni Commands :::::<end>
+(opentimesomni has exactly same syntax but only available for listed RLs)
+
+<highlight>Bases in 1-200 or 200-300 range<end>
+<tab><symbol>opentimes
+
+<highlight>Bases with particular CT ql<end>
+<tab><symbol>opentimes 'ct_ql'
+<green><tab><symbol>opentimes 100<end>
+
+<highlight>Bases with CT in range from X to Y<end>
+<tab><symbol>opentimes 'X' 'Y'
+<green><tab><symbol>opentimes 100 200<end>
+
+<highlight>Bases in particular zone<end>
+<tab><symbol>opentimes 'zone'
+<green><tab><symbol>opentimes EFP<end>

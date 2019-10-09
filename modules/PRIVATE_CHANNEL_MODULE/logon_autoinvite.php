@@ -30,9 +30,15 @@
    */
 
 $db->query("SELECT * FROM members_<myname> WHERE name = '$sender' AND autoinv = 1");
-if ($db->numrows() != 0) {
+if ($db->numrows() != 0 && !isset($chatBot->chatlist[$sender])) {
     $msg = "You have been auto invited to the <highlight><myname><end> channel.";
     $chatBot->privategroup_invite($sender);
     $chatBot->send($msg, $sender);
+	
+	if(Setting::get('add_to_members_on_join')==1){
+		$db->exec("DELETE FROM members_<myname> WHERE `name` = '$sender'");
+		Buddylist::remove($sender, 'member');
+	}
 }
+
 ?>

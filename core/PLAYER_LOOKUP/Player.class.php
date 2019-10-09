@@ -1,6 +1,40 @@
 <?php
 
 class Player {
+	public static function sync_attempt($sender=null){
+		$db = DB::get_instance();
+		global $chatBot;
+		if($sender===null){
+			$sql = "SELECT * FROM players WHERE last_update<" . (time() - 604800) . " OR charid=0 ORDER BY last_update ASC LIMIT 1;";
+			$db->query($sql);
+			if($db->numrows()===0) return false;
+			$char = $db->fObject();
+			$name = $char->name;
+		} else {
+			$sql = "SELECT * FROM players WHERE name LIKE '{$sender}';";
+			$db->query($sql);
+			if($db->numrows()===0) return false;
+			$char = $db->fObject();
+			$name = $char->name;
+		}
+		
+		$charid = $chatBot->get_uid($name);
+		if ($charid !== null && !empty($charid)) {
+			$player = Player::lookup($name, $chatBot->vars['dimension']);
+			if ($player->name === $name) {
+				$player->charid = $charid;
+				Player::update($player);
+			} else {
+				$db->exec("UPDATE players SET last_update=" . (time() - 604800) . " WHERE name LIKE '{$name}';");
+				return false;
+			}
+		} else {
+			$db->exec("DELETE FROM players WHERE name LIKE '{$name}';");
+			$db->exec("INSERT INTO charid_history (`charid`,`name`,`level`,`profession`,`faction`,`time`) VALUES ('{$char->charid}','{$char->name}','{$char->level}','{$char->profession}','{$char->faction}'," . time() . ";");
+		}
+		return true;
+	}
+
 	public static function get_by_name($name, $forceUpdate = false) {
 		$db = DB::get_instance();
 		global $chatBot;
@@ -12,25 +46,36 @@ class Player {
 			return null;
 		}
 	
-		$sql = "SELECT * FROM players WHERE name LIKE '$name'";
+		if(Setting::get('hide_omni_scout')==0){
+			$sql = "SELECT p.*,op.charid AS oldcharid FROM players p LEFT JOIN warbot_old.players op ON p.name=op.name WHERE p.name LIKE '$name'";
+		} else {
+			$sql = "SELECT * FROM players WHERE name LIKE '$name'";
+		}
+		
 		$db->query($sql);
+		$found = $db->numrows();
 		$player = $db->fObject();
 
 		if ($player === null || $forceUpdate) {
 			$player = Player::lookup($name, $chatBot->vars['dimension']);
-			if ($player !== null) {
+			if ($player !== null && $player->name == $name) {
 				$player->charid = $charid;
 				Player::update($player);
+			} else {
+				$player = Player::lookup_auno($name, $chatBot->vars['dimension']);
+				if($found === 0 && $player !== null){
+					Player::update($player,0);
+				}
 			}
-		} else if ($player->last_update < (time() - 86400)) {
-			$player2 = Player::lookup($name, $chatBot->vars['dimension']);
+		} else if ($player->last_update < (time() - 604800)) {
+		/*	$player2 = Player::lookup($name, $chatBot->vars['dimension']);
 			if ($player2 !== null) {
 				$player = $player2;
 				$player->charid = $charid;
 				Player::update($player);
-			} else {
+			} else {	*/
 				$player->source .= ' (old-cache)';
-			}
+		//	}
 		} else {
 			$player->source .= ' (current-cache)';
 		}
@@ -39,8 +84,9 @@ class Player {
 	}
 	
 	public static function lookup($name, $dimension) {
-		$xml = Player::lookup_url("http://people.anarchy-online.com/character/bio/d/$dimension/name/$name/bio.xml");
-		if ($xml->name == $name) {
+		$xml = Player::lookup_url("http://people.anarchy-online.com/character/bio/d/5/name/$name/bio.xml");
+	//	if ($xml->name == $name) {
+		if ($xml!==null){
 			$xml->source = 'people.anarchy-online.com';
 			$xml->dimension = $dimension;
 
@@ -48,6 +94,7 @@ class Player {
 		}
 		
 		// if people.anarchy-online.com was too slow to respond or returned invalid data then try to update from auno.org
+		/*
 		$xml = Player::lookup_url("http://auno.org/ao/char.php?output=xml&dimension=$dimension&name=$name");
 		if ($xml->name == $name) {
 			$xml->source = 'auno.org';
@@ -55,7 +102,21 @@ class Player {
 
 			return $xml;
 		}
+		*/
 		
+		return null;
+	}
+
+	public static function lookup_auno($name, $dimension) {
+
+		$xml = Player::lookup_url("http://auno.org/ao/char.php?output=xml&dimension=$dimension&name=$name");
+		if ($xml->name == $name) {
+			$xml->source = 'auno.org';
+			$xml->dimension = $dimension;
+
+			return $xml;
+		}
+
 		return null;
 	}
 	
@@ -84,9 +145,37 @@ class Player {
 		return $xml;
 	}
 	
-	public static function update(&$char) {
+	public static function update(&$char,$last_update=1) {
 		$db = DB::get_instance();
+		if($last_update===1) $last_update = time();
+	//	$db->query("SELECT charid, name FROM players WHERE `name` = '{$char->name}'");
+	//	$old = $db->fObject();
 		
+	/*	
+		$sql = "UPDATE players SET
+				charid='{$char->charid}',
+				firstname='" . str_replace("'", "''", $char->firstname) . "',
+				name='{$char->name}',
+				lastname='" . str_replace("'", "''", $char->lastname) . "',
+				level='{$char->level}',
+				breed='{$char->breed}',
+				gender='{$char->gender}',
+				faction='{$char->faction}',
+				profession='{$char->profession}',
+				prof_title='{$char->prof_title}',
+				ai_rank='{$char->ai_rank}',
+				ai_level='{$char->ai_level}',
+				guild_id='{$char->guild_id}',
+				guild='" . str_replace("'", "''", $char->guild) . "',
+				guild_rank='{$char->guild_rank}',
+				guild_rank_id='{$char->guild_rank_id}',
+				dimension='{$char->dimension}',
+				source='{$char->source}',
+				last_update='{$last_update}'
+				WHERE name='{$char->name}';
+			";
+	*/	
+	
 		$sql = "DELETE FROM players WHERE `name` = '{$char->name}'";
 		$db->exec($sql);
 
@@ -130,8 +219,9 @@ class Player {
 				'{$char->guild_rank_id}',
 				'{$char->dimension}',
 				'{$char->source}',
-				'" . time() . "'
+				'{$last_update}'
 			)";
+
 		
 		$db->exec($sql);
 	}

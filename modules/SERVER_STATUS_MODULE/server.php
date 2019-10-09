@@ -38,8 +38,46 @@ if (preg_match("/^server(.*)$/i", $message, $arr)) {
 	  	if ($server->errorCode != 0) {
 	  		$msg = $server->errorInfo;
 	  	} else {
-		    $link  = "<header>::::: $server->name Server Status :::::<end>\n\n";
+		    $link  = "<header>::::: $server->name Server Status :::::<end>";
+			if(Setting::get('server_tl7')==1){
+				$link .= "\n\n<highlight>Zones with tl7 towers:<end>\n\n";
+				
+				$high_lvl=array("Deep Artery Valley","Eastern Fouls Plain","Belial Forest","Mort","Central Artery Valley","Perpetual Wastelands","Southern Fouls Hills");
+				
+				$i=0;
+				$high_lvl_data=array();
+				forEach ($server->data as $zone => $proz)
+					if(in_array($zone,$high_lvl)) {
+						$high_lvl_data[$i]->proz=str_replace("%","",$proz["players"]);
+						$high_lvl_data[$i]->zone=$zone;
+						$i++;
+					}
+				// sort tl7 by proz
+				$sorted=false;
+				while(!$sorted){
+					$sorted=true;
+					for($i=0;$i<(count($high_lvl_data)-1);$i++){
+						if(($high_lvl_data[$i]->proz)<($high_lvl_data[$i+1]->proz)){ // switch
+							$temp=$high_lvl_data[$i+1];
+							$high_lvl_data[$i+1]=$high_lvl_data[$i];
+							$high_lvl_data[$i]=$temp;
+							$sorted=false;
+						}
+					}
+				}
 
+				foreach($high_lvl_data as $pf)
+					$link .= "<highlight>{$pf->zone}<end>: {$pf->proz}%\n";
+			}	
+		    $link .= "\n\n<highlight>Player distribution in % of total players online.<end>\n\n";
+   		    ksort($server->data);
+			
+		    forEach ($server->data as $zone => $proz) {
+		    	$link .= "<highlight>$zone<end>: {$proz["players"]} \n";
+			}
+			
+			$link .= "\n\n";
+			
 			if ($server->servermanager == 1) {
 				$link .= "<highlight>Servermanager<end> is <green>UP<end>\n";
 			} else {
@@ -57,14 +95,8 @@ if (preg_match("/^server(.*)$/i", $message, $arr)) {
 			} else {
 				$link .= "<highlight>Chatserver<end> is <red>DOWN<end>\n\n";
 			}
-
-		    $link .= "<highlight>Player distribution in % of total players online.<end>\n";
-   		    ksort($server->data);
-		    forEach ($server->data as $zone => $proz) {
-		    	$link .= "<highlight>$zone<end>: {$proz["players"]} \n";
-			}
 			
-			$msg = Text::make_link("Status of $server->name", $link);	    
+			$msg = Text::make_link("Server Status of $server->name", $link);	    
 		}
 	} else {
 		$msg = "Choose a server between 1 and 4";

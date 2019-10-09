@@ -43,7 +43,7 @@ if (preg_match("/^whois (.+)$/i", $message, $arr)) {
 	        $list = "<header> :::::: Detailed info for {$name} :::::: <end>\n\n";
 	        $list .= "Name: <highlight>{$whois->firstname} \"{$name}\" {$whois->lastname}<end>\n";
 			if ($whois->guild) {
-				$list .= "Guild: <highlight>{$whois->guild} ({$whois->guild_id})<end>\n";
+				$list .= "Guild: <highlight>{$whois->guild}<end>\n"; // ({$whois->guild_id})<end>\n";
 				$list .= "Guild Rank: <highlight>{$whois->guild_rank} ({$whois->guild_rank_id})<end>\n";
 			}
 			$list .= "Breed: <highlight>{$whois->breed}<end>\n";
@@ -51,26 +51,36 @@ if (preg_match("/^whois (.+)$/i", $message, $arr)) {
 			$list .= "Profession: <highlight>{$whois->profession} ({$whois->prof_title})<end>\n";
 			$list .= "Level: <highlight>{$whois->level}<end>\n";
 			$list .= "AI Level: <highlight>{$whois->ai_level} ({$whois->ai_rank})<end>\n";
-			$list .= "Faction: <highlight>{$whois->faction}<end>\n";
-			$list .= "Character ID: <highlight>{$whois->charid}<end>\n\n";
+			$list .= "Faction: <highlight>{$whois->faction}<end>\n\n";
+			if(Setting::get('hide_omni_scout')==0){
+				$list .= "Character ID: <highlight>{$whois->charid}<end>\n";
+				if(isset($whois->oldcharid)){
+					$id = intval($whois->oldcharid);
+					if($id<=0){
+						$id=$id+2147483647+147483649;
+						if($id>999999999) $id=(intval(substr($id,0,1))+2) . substr($id,1);
+						else $id="2".$id;
+					}
+					$list .= "Old (RK2) Char ID: <highlight>{$id}<end>\n\n";
+				}
+			}
 			
 			$list .= "Source: $whois->source\n\n";
 			
 	        $list .= "<a href='chatcmd:///tell <myname> history $name'>Check $name's History</a>\n";
 	        $list .= "<a href='chatcmd:///tell <myname> is $name'>Check $name's online status</a>\n";
-	        if ($whois->guild) {
-		        $list .= "<a href='chatcmd:///tell <myname> whoisorg $whois->guild_id'>Show info about {$whois->guild}</a>\n";
-				$list .= "<a href='chatcmd:///tell <myname> orglist $whois->guild_id'>Orglist for {$whois->guild}</a>\n";
-			}
+	    //    if ($whois->guild) {
+		//        $list .= "<a href='chatcmd:///tell <myname> whoisorg $whois->guild_id'>Show info about {$whois->guild}</a>\n";
+		//		$list .= "<a href='chatcmd:///tell <myname> orglist $whois->guild_id'>Orglist for {$whois->guild}</a>\n";
+		//	}
 	        $list .= "<a href='chatcmd:///cc addbuddy $name'>Add to buddylist</a>\n";
 	        $list .= "<a href='chatcmd:///cc rembuddy $name'>Remove from buddylist</a>";
 			
 	        $msg .= " :: " . Text::make_link("More info", $list, 'blob');
 			
-			$main = Alts::get_main($name);
-			$alts = Alts::get_alts($main);
-			if (count($alts) > 0) {
-				$msg .= " :: " . Text::make_link("Alts of $main", "/tell <myname> alts $main", 'chatcmd');
+			$blob = Alts::get_alts_blob($name);
+			if ($blob) {
+				$msg .= " :: " . $blob;
 			}
 	    }
     } else {
@@ -90,7 +100,8 @@ if (preg_match("/^whois (.+)$/i", $message, $arr)) {
 		}
         $msg = "";
         $whois = Player::lookup($name, $i);
-        if ($whois !== null) {
+		if($whois->name != $name) $whois = Player::lookup_auno($name,$i);
+        if ($whois->name == $name) {
             $msg = Player::get_info($whois);
 
 			$list = "<header> :::::: Detailed info for {$name} :::::: <end>\n\n";
@@ -106,7 +117,7 @@ if (preg_match("/^whois (.+)$/i", $message, $arr)) {
 			$list .= "AI Level: <highlight>{$whois->ai_level} ({$whois->ai_rank})<end>\n";
 			$list .= "Faction: <highlight>{$whois->faction}<end>\n\n";
 			
-			$list .= "Source: $whois->source\n\n";
+		//	$list .= "Source: $whois->source\n\n";
 
             $list .= "<a href='chatcmd:///tell <myname> history $name'>Check $name's History</a>\n";
             $list .= "<a href='chatcmd:///tell <myname> is $name'>Check $name's online status</a>\n";

@@ -13,20 +13,24 @@ if (preg_match("/^(countdown|cd)$/i", $message)) {
 	$countdown_last = time();
 	
 	for ($i = 5; $i > 3; $i--) {
-		$msg = "<red>-------> $i <-------<end>";
+		$msg = "<red>-------> $i &lt;-------<end>";
 	    // Send info back
 	    $chatBot->send($msg, $sendto);
 	    sleep(1);
 	}
 
-	for ($i = 3; $i > 0; $i--) {
-		$msg = "<orange>-------> $i <-------<end>";
+	for ($i = 3; $i > 1; $i--) {
+		$msg = "<orange>-------> $i &lt;-------<end>";
 	    // Send info back
 	    $chatBot->send($msg, $sendto);
 	    sleep(1);
 	}
+	
+	$msg = "<yellow>-------> $i &lt;-------<end>";
+	$chatBot->send($msg, $sendto);
+	sleep(1);		
 
-	$msg = "<green>-------> GO GO GO <-------<end>";
+	$msg = "<green>-> GO GO GO! &lt;-<end>";
     // Send info back
     $chatBot->send($msg, $sendto);
 } else {

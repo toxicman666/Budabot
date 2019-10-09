@@ -45,19 +45,41 @@ if (preg_match("/^is (.+)$/i", $message, $arr)) {
 			$chatBot->data["ONLINE_MODULE"]['sendto'] = $sendto;
 			Buddylist::add($name, 'is_online');
 		} else {
-            $db->query("SELECT * FROM org_members_<myname> WHERE `name` = '$name'");
+            $db->query("SELECT * FROM org_members_<myname> WHERE `name` = '$name';");
             if ($db->numrows() == 1) {
                 $row = $db->fObject();
                 if($row->logged_off != "0") {
-                    $logged_off = "\nLogged off at ".gmdate("l F d, Y - H:i", $row->logged_off)."(GMT)";
+                    $logged_off = " last seen at ".gmdate("l F d, Y - H:i", $row->logged_off)."(GMT)";
 				}
             }
-            if ($online_status) {
-                $status = "<green>online<end>";
-            } else {
-                $status = "<red>offline<end>".$logged_off;
+			$main = Alts::get_main($name);
+			if($main) $db->query("SELECT * FROM members_<myname> m LEFT JOIN alts a ON a.alt=m.name WHERE a.main='$main' OR m.name='$main' ORDER BY logged_off DESC LIMIT 1;");
+			else $db->query("SELECT * FROM members_<myname> WHERE name='$name';");
+			if ($db->numrows()!==0) {
+				$row = $db->fObject();
+                if($row->logged_off != "0") {
+                    $logged_off = " last seen <highlight>". Util::unixtime_to_readable(time()-$row->logged_off) ."<end> ago (".gmdate("F d, Y - H:i", $row->logged_off)." GMT)";
+					if($row->alt!=NULL) $logged_off .= " on <highlight>{$row->alt}<end>";
+					else $logged_off .= " on <highlight>{$row->name}<end>";
+				}				
 			}
-            $msg = "Player <highlight>$name<end> is $status";
+			if ($main) {
+				$alts = Alts::get_alts($main);
+				$alts[]=$main;
+			} else $alts[]=$name;
+			foreach($alts as $alt){
+				$online_status = Buddylist::is_online($alt);
+				if ($online_status){
+					if ($alt!=$name) $on.= " $alt";
+					else $onmain=true;
+				}
+			}
+            $msg = "Player <highlight>$name<end> is ";
+			if($onmain||$on) {
+				$msg .= "<green>online<end>";
+				if ($onmain&&$on) $on = " {$name}{$on}";
+				if ($on) $msg .= " on:<highlight>$on<end>";
+			} else $msg .= "<red>offline<end>".$logged_off;
 			$chatBot->send($msg, $sendto);
         }
     }

@@ -1,7 +1,16 @@
-<header>::::: Creating an healassist macro :::::<end>
+<header>::::: Creating a healassist macro :::::<end>
 
 <highlight>Set a new healassist<end>
-<tab><symbol>heal 'name'
+<tab><symbol>heal 'name1' 'name2' 
 
 <highlight>Show current healassist<end>
 <tab><symbol>heal
+
+<highlight>Add player(s) to healassist<end>
+<tab><symbol>addheal 'name1' 'name2'
+
+<highlight>Remove player from healassist<end>
+<tab><symbol>remheal 'name'
+
+<highlight>Clear healassist<end>
+<tab><symbol>remheal

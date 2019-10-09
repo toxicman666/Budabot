@@ -71,18 +71,19 @@ if (preg_match("/^attacks (\\d+)$/i", $message, $arr) || preg_match("/^attacks$/
 }
 
 $page = $page_label - 1;
+$offset = $page*$listcount;
 $sql = 
 	"SELECT
 		*
 	FROM
-		tower_attack_<myname> a
+		tower_attack a
 		LEFT JOIN playfields p ON (a.playfield_id = p.id)
 		LEFT JOIN tower_site s ON (a.playfield_id = s.playfield_id AND a.site_number = s.site_number)
 	$search
 	ORDER BY
 		a.`time` DESC
 	LIMIT
-		$page, $listcount";
+		$offset, $listcount";
 
 $db->query($sql);
 

@@ -45,7 +45,7 @@ class Budabot extends AOChat {
 		// Choose Server
 		if ($this->vars["dimension"] == 1) {
 			$server = "chat.d1.funcom.com";
-			$port = 7101;
+			$port = 7105;
 		} else if ($this->vars["dimension"] == 2) {
 			$server = "chat.d2.funcom.com";
 			$port = 7102;
@@ -97,6 +97,8 @@ class Budabot extends AOChat {
 		// Set cron timers
 		$this->vars["2sec"] 			= time() + Setting::get("CronDelay");
 		$this->vars["1min"] 			= time() + Setting::get("CronDelay");
+		$this->vars["2min"] 			= time() + Setting::get("CronDelay");
+		$this->vars["5min"] 			= time() + Setting::get("CronDelay");		
 		$this->vars["10mins"] 			= time() + Setting::get("CronDelay");
 		$this->vars["15mins"] 			= time() + Setting::get("CronDelay");
 		$this->vars["30mins"] 			= time() + Setting::get("CronDelay");
@@ -556,6 +558,10 @@ class Budabot extends AOChat {
 					return;
 				} else if (preg_match("/Unknown command input/si", $message, $arr)) {
 					return;
+				} else if (preg_match("/You have to be at least level/si", $message, $arr)){
+					return;
+				} else if (preg_match("/Join the bot to use/si", $message, $arr)){
+					return;
 				}
 
 				if (Ban::is_banned($sender)) {
@@ -638,6 +644,8 @@ class Budabot extends AOChat {
 				
 				} else {  // ext priv group message
 					
+					return;
+					/*
 					$type = "extPriv";
 					
 					forEach ($this->events[$type] as $filename) {
@@ -646,7 +654,7 @@ class Budabot extends AOChat {
 						if ($stop_execution) {
 							return;
 						}
-					}
+					}	*/
 				}
 				break;
 			case AOCP_GROUP_MESSAGE: // 65, Public and guild channels
@@ -693,14 +701,14 @@ class Budabot extends AOChat {
                     return;
                 } else if ($channel == "Org Msg"){
                     $type = "orgmsg";
-
+				/*
 					forEach ($this->events[$type] as $filename) {
 						$msg = "";
 						include $filename;
 						if ($stop_execution) {
 							return;
 						}
-					}
+					}	*/
                     return;
                 } else if ($b[1] == 3 && Setting::get('guild_channel_status') == 1) {
                     $type = "guild";
@@ -789,8 +797,8 @@ class Budabot extends AOChat {
 		$access = AccessLevel::checkAccess($sender, $admin);
 
 		if ($access !== true || $filename == "") {
-			if ($type != 'guild') {
-				// don't notify user of unknown command in org chat, in case they are running more than one bot
+			if ($type == 'msg') {
+
 				$chatBot->send("Error! Unknown command or Access denied! for more info try /tell <myname> help", $sendto);
 				$chatBot->spam[$sender] = $chatBot->spam[$sender] + 20;
 			}
@@ -824,9 +832,10 @@ class Budabot extends AOChat {
 		$db = DB::get_instance();
 		global $chatBot;
 		
-		if ($chatBot->vars["2sec"] < time()) {
+		$time = time();
+		if ($chatBot->vars["2sec"] < $time) {
 			Logger::log('DEBUG', 'Cron', "2secs");
-			$chatBot->vars["2sec"] 	= time() + 2;
+			$chatBot->vars["2sec"] 	= $time + 1;
 			forEach ($chatBot->spam as $key => $value){
 				if ($value > 0) {
 					$chatBot->spam[$key] = $value - 10;
@@ -839,7 +848,7 @@ class Budabot extends AOChat {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["1min"] < time()) {
+		if ($chatBot->vars["1min"] < $time) {
 			Logger::log('DEBUG', 'Cron', "1min");
 			forEach ($chatBot->largespam as $key => $value){
 				if ($value > 0) {
@@ -849,42 +858,72 @@ class Budabot extends AOChat {
 				}
 			}
 			
-			$chatBot->vars["1min"] = time() + 60;
+			$chatBot->vars["1min"] = $time + 59;
 			forEach ($chatBot->events['1min'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["10mins"] < time()) {
+		if ($chatBot->vars["2min"] < $time) {
+			Logger::log('DEBUG', 'Cron', "2min");
+			forEach ($chatBot->largespam as $key => $value){
+				if ($value > 0) {
+					$chatBot->largespam[$key] = $value - 1;
+				} else {
+					$chatBot->largespam[$key] = 0;
+				}
+			}
+			
+			$chatBot->vars["2min"] = $time + 119;
+			forEach ($chatBot->events['2min'] as $filename) {
+				require $filename;
+			}
+		}	
+		if ($chatBot->vars["5min"] < $time) {
+			Logger::log('DEBUG', 'Cron', "5min");
+			forEach ($chatBot->largespam as $key => $value){
+				if ($value > 0) {
+					$chatBot->largespam[$key] = $value - 1;
+				} else {
+					$chatBot->largespam[$key] = 0;
+				}
+			}
+			
+			$chatBot->vars["5min"] = $time + 299;
+			forEach ($chatBot->events['5min'] as $filename) {
+				require $filename;
+			}
+		}		
+		if ($chatBot->vars["10mins"] < $time) {
 			Logger::log('DEBUG', 'Cron', "10mins");
-			$chatBot->vars["10mins"] 	= time() + (60 * 10);
+			$chatBot->vars["10mins"] 	= $time + (60 * 10);
 			forEach ($chatBot->events['10mins'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["15mins"] < time()) {
+		if ($chatBot->vars["15mins"] < $time) {
 			Logger::log('DEBUG', 'Cron', "15mins");
-			$chatBot->vars["15mins"] 	= time() + (60 * 15);
+			$chatBot->vars["15mins"] 	= $time + (60 * 15);
 			forEach ($chatBot->events['15mins'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["30mins"] < time()) {
+		if ($chatBot->vars["30mins"] < $time) {
 			Logger::log('DEBUG', 'Cron', "30mins");
-			$chatBot->vars["30mins"] 	= time() + (60 * 30);
+			$chatBot->vars["30mins"] 	= $time + (60 * 30);
 			forEach ($chatBot->events['30mins'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["1hour"] < time()) {
+		if ($chatBot->vars["1hour"] < $time) {
 			Logger::log('DEBUG', 'Cron', "1hour");
-			$chatBot->vars["1hour"] 	= time() + (60 * 60);
+			$chatBot->vars["1hour"] 	= $time + (60 * 60);
 			forEach ($chatBot->events['1hour'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["24hours"] < time()) {
+		if ($chatBot->vars["24hours"] < $time) {
 			Logger::log('DEBUG', 'Cron', "24hours");
-			$chatBot->vars["24hours"] 	= time() + ((60 * 60) * 24);
+			$chatBot->vars["24hours"] 	= $time + ((60 * 60) * 24);
 			forEach ($chatBot->events['24hrs'] as $filename) {
 				require $filename;
 			}

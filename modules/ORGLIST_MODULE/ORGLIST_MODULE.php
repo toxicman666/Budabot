@@ -2,11 +2,11 @@
 	$MODULE_NAME = "ORGLIST_MODULE";
  
 	// Checks who in an org is online
-	Command::register($MODULE_NAME, "", "orglist.php", "orglist", "guildadmin", "Check someones org roster");
+	Command::register($MODULE_NAME, "", "orglist.php", "orglist", "rl", "Check someones org roster");
 	CommandAlias::register($MODULE_NAME, "orglist", "onlineorg");
 	
-	Command::register($MODULE_NAME, "", "orgmembers.php", "orgmembers", "guildadmin", "Show guild members sorted by name");
-	Command::register($MODULE_NAME, "", "orgranks.php", "orgranks", "guildadmin", "Show guild members sorted by guild rank");
+	Command::register($MODULE_NAME, "", "orgmembers.php", "orgmembers", "rl", "Show guild members sorted by name");
+//	Command::register($MODULE_NAME, "", "orgranks.php", "orgranks", "rl", "Show guild members sorted by guild rank");
 
 	Event::register($MODULE_NAME, "logOn", "orglist.php", "none", "Gets online status of org members");
 	Event::register($MODULE_NAME, "logOff", "orglist.php", "none", "Gets offline status of org members");
@@ -24,5 +24,5 @@
 	Help::register($MODULE_NAME, "findorg", "findorg.txt", "all", "Find an org by name");
 	Help::register($MODULE_NAME, "is", "isonline.txt", "guild", "Checking if a player is online");
 	Help::register($MODULE_NAME, "orgmembers", "orgmembers.txt", "guild", "How to use orgmembers");
-	Help::register($MODULE_NAME, "orgranks", "orgranks.txt", "guild", "How to use orgranks");
+//	Help::register($MODULE_NAME, "orgranks", "orgranks.txt", "guild", "How to use orgranks");
 ?>

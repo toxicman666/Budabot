@@ -64,12 +64,12 @@ class Towers {
 		$def_guild_name = str_replace("'", "''", $def_guild_name);
 		
 		$time = time() - (7 * 3600);
-		
+		if($att_guild_name!="")
 		$sql = "
 			SELECT
 				*
 			FROM
-				tower_attack_<myname>
+				tower_attack
 			WHERE
 				`att_guild_name` = '{$att_guild_name}'
 				AND `att_faction` = '{$att_faction}'
@@ -80,49 +80,83 @@ class Towers {
 			ORDER BY
 				`time` DESC
 			LIMIT 1";
-		
+		else 
+		$sql = "
+			SELECT
+				*
+			FROM
+				tower_attack
+			WHERE
+				`def_guild_name` = '{$def_guild_name}'
+				AND `def_faction` =  '{$def_faction}'
+				AND `playfield_id` = {$playfield_id}
+				AND `time` >= {$time}
+			ORDER BY
+				`time` DESC
+			LIMIT 1";		
 		$db->query($sql);
 		return $db->fObject();
 	}
 	
 	public static function record_attack($whois, $def_faction, $def_guild_name, $x_coords, $y_coords, $closest_site) {
+		// delay tower records if there are multiple bots on one DB
+	//	$delay = Setting::get('tower_record_delay');
+		
 		$db = DB::get_instance();
+		
+		$time_kill = time();
 		
 		$att_guild_name = str_replace("'", "''", $whois->guild);
 		$def_guild_name = str_replace("'", "''", $def_guild_name);
 		
-		$sql = "
-			INSERT INTO tower_attack_<myname> (
-				`time`,
-				`att_guild_name`,
-				`att_faction`,
-				`att_player`,
-				`att_level`,
-				`att_ai_level`,
-				`att_profession`,
-				`def_guild_name`,
-				`def_faction`,
-				`playfield_id`,
-				`site_number`,
-				`x_coords`,
-				`y_coords`
-			) VALUES (
-				".time().",
-				'{$att_guild_name}',
-				'{$whois->faction}',
-				'{$whois->name}',
-				'{$whois->level}',
-				'{$whois->ai_level}',
-				'{$whois->profession}',
-				'{$def_guild_name}',
-				'{$def_faction}',
-				{$closest_site->playfield_id},
-				{$closest_site->site_number},
-				{$x_coords},
-				{$y_coords}
-			)";
+		$flag = $db->exec("INSERT INTO tower_query_flag (flag) VALUES (1);");	// set flag
+		while(!$flag) {
+			$flag = $db->exec("INSERT INTO tower_query_flag (flag) VALUES (1);");
+		}
+		$sql = "SELECT *
+			FROM tower_attack 
+			WHERE att_player LIKE '{$whois->name}' AND
+				  def_guild_name LIKE '{$def_guild_name}' AND
+				  playfield_id={$closest_site->playfield_id} AND
+				  site_number={$closest_site->site_number}
+			HAVING time>". (time()-1260) .";";
+				
+		$db->query($sql);
+		if ($db->numrows() === 0){
+			$sql = "
+				INSERT INTO tower_attack (
+					`time`,
+					`att_guild_name`,
+					`att_faction`,
+					`att_player`,
+					`att_level`,
+					`att_ai_level`,
+					`att_profession`,
+					`def_guild_name`,
+					`def_faction`,
+					`playfield_id`,
+					`site_number`,
+					`x_coords`,
+					`y_coords`
+				) VALUES (
+					{$time_kill},
+					'{$att_guild_name}',
+					'{$whois->faction}',
+					'{$whois->name}',
+					'{$whois->level}',
+					'{$whois->ai_level}',
+					'{$whois->profession}',
+					'{$def_guild_name}',
+					'{$def_faction}',
+					{$closest_site->playfield_id},
+					{$closest_site->site_number},
+					{$x_coords},
+					{$y_coords});";
+			$db->exec($sql);
+		}
+		$db->exec("DELETE FROM tower_query_flag WHERE flag=1;");	// remove flag
+		return true;
 		
-		return $db->exec($sql);
 	}
 	
 	public static function find_all_scouted_sites() {
@@ -149,13 +183,13 @@ class Towers {
 		
 		$sql = "
 			SELECT
-				*
+				*,v.time AS win_time
 			FROM
-				tower_victory_<myname> v
-				JOIN tower_attack_<myname> a ON (v.attack_id = a.id)
+				tower_victory v
+				JOIN tower_attack a ON (v.attack_id = a.id)
 			WHERE
 				a.`playfield_id` = {$playfield_id}
-				AND a.`site_number` >= {$site_number}
+				AND a.`site_number` = {$site_number}
 			ORDER BY
 				v.`time` DESC
 			LIMIT 1";
@@ -165,38 +199,69 @@ class Towers {
 	}
 	
 	public static function record_victory($last_attack) {
+		// delay tower records if there are multiple bots on one DB
+	//	$delay = Setting::get('tower_record_delay');
+		
+	
 		$db = DB::get_instance();
 		
+		$time_kill = time();
 		$win_guild_name = str_replace("'", "''", $last_attack->att_guild_name);
 		$lose_guild_name = str_replace("'", "''", $last_attack->def_guild_name);
 		
+		if(empty($last_attack->id)){
+			$flag = $db->exec("INSERT INTO tower_query_flag (flag) VALUES (0);");	// set flag
+			while(!$flag) {
+				$flag = $db->exec("INSERT INTO tower_query_flag (flag) VALUES (0);");
+			}
+			$sql = "
+				SELECT
+					*
+				FROM tower_victory
+				WHERE
+					lose_guild_name='{$lose_guild_name}'
+					" . (empty($win_guild_name)?"":"AND win_guild_name='{$win_guild_name}'") . "
+					AND lose_faction = '{$last_attack->def_faction}'
+					AND attack_id IS NULL
+				HAVING
+					time>" . ($time_kill-600) . ";";
+				
+			$db->query($sql);
+			if ($db->numrows() !== 0){
+				$db->exec("DELETE FROM tower_query_flag WHERE flag=0;");	// remove flag
+				return true;
+			}
+		}
+		
 		$sql = "
-			INSERT INTO tower_victory_<myname> (
+			INSERT IGNORE INTO tower_victory (
 				`time`,
 				`win_guild_name`,
 				`win_faction`,
 				`lose_guild_name`,
-				`lose_faction`,
-				`attack_id`
+				`lose_faction`
+				" . (empty($last_attack->id) ? "" : ",`attack_id`") . "
 			) VALUES (
-				".time().",
+				{$time_kill},
 				'{$win_guild_name}',
 				'{$last_attack->att_faction}',
 				'{$lose_guild_name}',
-				'{$last_attack->def_faction}',
-				{$last_attack->id}
-			)";
-		
-		return $db->exec($sql);
+				'{$last_attack->def_faction}'
+				" . (empty($last_attack->id) ? "" : "," . $last_attack->id) . "
+			);";
+		$db->exec($sql);
+		if(empty($last_attack->id)) $db->exec("DELETE FROM tower_query_flag WHERE flag=0;");	// remove flag
+		return true;
 	}
 	
-	public static function add_scout_site($playfield_id, $site_number, $close_time, $ct_ql, $faction, $guild_name, $scouted_by) {
+	public static function add_scout_site($playfield_id, $site_number, $close_time, $ct_ql, $faction, $guild_name, $scouted_by, $force=false) {
 		$db = DB::get_instance();
+		$faction = ucfirst(strtolower($faction));
 		
 		$guild_name = str_replace("'", "''", $guild_name);
 		
 		$sql = "
-			INSERT INTO scout_info (
+			INSERT INTO scout_info_history (
 				`playfield_id`,
 				`site_number`,
 				`scouted_on`,
@@ -205,16 +270,33 @@ class Towers {
 				`guild_name`,
 				`faction`,
 				`close_time`
+				" . ($force?",`force`":"") . "
 			) VALUES (
 				{$playfield_id},
 				{$site_number},
-				".time().",
+				NOW(),
 				'{$scouted_by}',
 				{$ct_ql},
 				'{$guild_name}',
 				'{$faction}',
 				{$close_time}
+				" . ($force?",1":"") . "
 			)";
+
+		$db->exec($sql);
+			
+		$sql = "
+			UPDATE scout_info SET 
+				`scouted_on` = NOW(),
+				`scouted_by` = '{$scouted_by}',
+				`ct_ql` = {$ct_ql},
+				`guild_name` = '{$guild_name}',
+				`faction` = '{$faction}',
+				`close_time` = {$close_time},
+				`is_current` = 1
+			WHERE
+				`playfield_id` = {$playfield_id}
+				AND `site_number` = {$site_number}";
 
 		return $db->exec($sql);
 	}
@@ -222,7 +304,7 @@ class Towers {
 	public static function rem_scout_site($playfield_id, $site_number) {
 		$db = DB::get_instance();
 		
-		$sql = "DELETE FROM scout_info WHERE `playfield_id` = {$playfield_id} AND `site_number` = {$site_number}";
+		$sql = "UPDATE scout_info SET is_current=0 WHERE `playfield_id` = {$playfield_id} AND `site_number` = {$site_number}";
 
 		return $db->exec($sql);
 	}
@@ -232,7 +314,7 @@ class Towers {
 		
 		$guild_name = str_replace("'", "''", $guild_name);
 	
-		$sql = "SELECT * FROM tower_attack_<myname> WHERE `att_guild_name` LIKE '{$guild_name}' OR `def_guild_name` LIKE '{$guild_name}' LIMIT 1";
+		$sql = "SELECT * FROM tower_attack WHERE `att_guild_name` LIKE '{$guild_name}' OR `def_guild_name` LIKE '{$guild_name}' LIMIT 1";
 		
 		$db->query($sql);
 		if ($db->numrows() === 0) {

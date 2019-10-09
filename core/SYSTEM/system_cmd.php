@@ -6,6 +6,10 @@ if (preg_match("/^system$/i", $message, $arr)) {
 	$sql = "SELECT count(*) AS count FROM players";
 	$db->query($sql);
 	$count = $db->fObject()->count;
+	
+	$sql = "SELECT count(*) AS count FROM players WHERE last_update<" . (time() - 604800);
+	$db->query($sql);
+	$count_outdated = $db->fObject()->count;
 
 	$blob = "<header>::::: System Info :::::<end>\n\n";
 	$blob .= "<highlight>Budabot:<end> $version\n";
@@ -36,6 +40,7 @@ if (preg_match("/^system$/i", $message, $arr)) {
 	$blob .= "<highlight>Number of characters in the private channel:<end> " . count($chatBot->chatlist) . "\n";
 	$blob .= "<highlight>Number of guild members:<end> " . count($chatBot->guildmembers) . "\n";
 	$blob .= "<highlight>Number of character infos in cache:<end> " . $count . "\n";
+	$blob .= "<highlight>Number of outdated character infos:<end> " . $count_outdated . "\n";
 	$blob .= "<highlight>Number of messages in the chat queue:<end> " . count($chatBot->chatqueue->queue) . "\n\n";
 	
 	$blob .= "<highlight>Public Channels:<end>\n";

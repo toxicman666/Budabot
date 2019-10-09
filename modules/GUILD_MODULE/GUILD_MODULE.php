@@ -20,7 +20,6 @@
 	Event::register($MODULE_NAME, "orgmsg", "notify_auto.php", "none", "Automatically add and remove chars from the guild roster as they leave and join the guild");
 	Command::register($MODULE_NAME, "", "notify.php", "notify", "guildadmin", "Adding a char manually to the notify list");
 	
-	Command::register($MODULE_NAME, "", "inactive_mem.php", "inactivemem", "guildadmin", "Check for inactive members");
 	Command::register($MODULE_NAME, "", "updateorg.php", "updateorg", "guildadmin", "Forcing an update of the org roster");
 	
 	Event::register($MODULE_NAME, "logOn", "notify_logon_guild.php", "none", "Shows an org member login in chat");
@@ -31,7 +30,6 @@
 	Setting::add($MODULE_NAME, "max_logon_msg_size", "The maximum number of characters a logon message can have", "edit", "number", "200", "100;200;300;400", '', "mod");
 	
 	// Help files
-	Help::register($MODULE_NAME, "inactivemem", "inactivemem.txt", "guildadmin", "Help on Checking for Inactive Members");
 	Help::register($MODULE_NAME, "updateorg", "updateorg.txt", "guildadmin", "Force an update of org roster");
 	Help::register($MODULE_NAME, "lastseen", "lastseen.txt", "guild", "Check when an orgmember was online");
 	Help::register($MODULE_NAME, "logon", "logon_msg.txt", "guild", "Changing your logon message");

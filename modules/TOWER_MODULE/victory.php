@@ -71,21 +71,22 @@ if (preg_match("/^victory (\\d+)$/i", $message, $arr) || preg_match("/^victory$/
 }
 
 $page = $page_label - 1;
+$offset = $page*$listcount;
 $sql = "
 	SELECT
 		*,
 		v.time AS victory_time,
 		a.time AS attack_time
 	FROM
-		tower_victory_<myname> v
-		LEFT JOIN tower_attack_<myname> a ON (v.attack_id = a.id)
+		tower_victory v
+		LEFT JOIN tower_attack a ON (v.attack_id = a.id)
 		LEFT JOIN playfields p ON (a.playfield_id = p.id)
 		LEFT JOIN tower_site s ON (a.playfield_id = s.playfield_id AND a.site_number = s.site_number)
 	{$search}
 	ORDER BY
 		`victory_time` DESC
 	LIMIT
-		$page, $listcount";
+		$offset, $listcount";
 
 $db->query($sql);
 if ($db->numrows() == 0) {

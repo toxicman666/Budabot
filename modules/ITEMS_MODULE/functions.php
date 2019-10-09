@@ -9,7 +9,7 @@ function download_newest_itemsdb() {
 	$data = file_get_contents("http://budabot2.googlecode.com/svn/trunk/modules/ITEMS_MODULE");
 	$data = str_replace("<hr noshade>", "", $data);  // not valid xml
 
-	$xml = new SimpleXmlElement($data);
+	$xml = null;// new SimpleXmlElement($data);
 
 	// find the latest items db version on the server
 	$latestVersion = null;

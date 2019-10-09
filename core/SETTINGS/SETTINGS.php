@@ -2,9 +2,9 @@
 	$MODULE_NAME = "SETTINGS";
 
 	//Commands
-	Command::activate("msg", "$MODULE_NAME/bot_settings.php", "settings", "mod");
-	Command::activate("priv", "$MODULE_NAME/bot_settings.php", "settings", "mod");
-	Command::activate("guild", "$MODULE_NAME/bot_settings.php", "settings", "mod");
+	Command::activate("msg", "$MODULE_NAME/bot_settings.php", "settings", "admin");
+//	Command::activate("priv", "$MODULE_NAME/bot_settings.php", "settings", "admin");
+//	Command::activate("guild", "$MODULE_NAME/bot_settings.php", "settings", "admin");
 
 	//Setup
 	Event::activate("setup", "$MODULE_NAME/upload_settings.php");
@@ -22,5 +22,5 @@
 	Setting::add($MODULE_NAME, 'default_unknown_color', "default unknown color", 'edit', "color", "<font color='#FF0000'>");
 
 	//Help Files
-	Help::register($MODULE_NAME, "settings", "settings.txt", "mod", "Change Settings of the Bot");
+	Help::register($MODULE_NAME, "settings", "settings.txt", "admin", "Change Settings of the Bot");
 ?>

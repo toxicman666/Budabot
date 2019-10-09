@@ -30,9 +30,27 @@
    */
 
 if (preg_match("/^kick (.+)$/i", $message, $arr)) {
-    $uid = $chatBot->get_uid($arr[1]);
+	$uid = $chatBot->get_uid($arr[1]);
     $name = ucfirst(strtolower($arr[1]));
-    if ($uid) {
+	
+	// check if high enough rank
+	$main = Alts::get_main($name);
+	if (isset($chatBot->admins[$main]))
+		if (!isset($chatBot->admins[$sender])||(int)$chatBot->admins[$sender]["level"]<=(int)$chatBot->admins[$main]["level"]){
+			$chatBot->send("<orange>Player $name ($main) has too high rank for you to kick.<end>", $sendto);
+			return;			
+		}
+		
+	// check alts
+	$alts = Alts::get_alts($main);
+	foreach($alts as $alt)
+		if (isset($chatBot->admins[$alt]))
+			if (!isset($chatBot->admins[$sender])||(int)$chatBot->admins[$sender]["level"]<=(int)$chatBot->admins[$alt]["level"]){
+				$chatBot->send("<orange>Player $name ($alt) has too high rank for you to kick.<end>", $sendto);
+				return;			
+			} 
+
+	if ($uid) {
         if (isset($chatBot->chatlist[$name])) {
 			$msg = "<highlight>$name<end> has been kicked from the private channel.";
 		} else {

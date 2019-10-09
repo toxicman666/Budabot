@@ -1,6 +1,13 @@
 <?php
 
 class Alts {
+	public static function is_wc_member($name) {
+		$db = DB::get_instance();
+		$main = Alts::get_main($name);
+		$db->query("SELECT m.* FROM members_warleaders m LEFT JOIN alts a ON m.name=a.alt WHERE `name`='$name' OR `main`='$main' OR `name`='$main';");
+		return ($db->numrows()>0);
+	}
+
 	public static function get_main($player) {
 		$db = DB::get_instance();
 		
@@ -46,7 +53,7 @@ class Alts {
 		return $db->exec($sql);
 	}
 	
-	public static function get_alts_blob($char) {
+	public static function get_alts_blob($char,$show_main=false) {
 		$db = DB::get_instance();
 	
 		$main = Alts::get_main($char);
@@ -57,14 +64,14 @@ class Alts {
 		}
 
 		$list = "<header> :::::: Character List for $main :::::: <end>\n\n";
-		$list .= "<tab><tab>{$main}";
+		$list .= "{$main}";
 		$character = Player::get_by_name($main);
 		if ($character !== null) {
 			$list .= " (<highlight>{$character->level}<end>/<green>{$character->ai_level}<end> <highlight>{$character->profession}<end>)";
 		}
 		$online = Buddylist::is_online($main);
 		if ($online === null) {
-			$list .= " - No status.\n";
+			$list .= "\n";
 		} else if ($online == 1) {
 			$list .= " - <green>Online<end>\n";
 		} else {
@@ -76,13 +83,13 @@ class Alts {
 		$db->query($sql);
 		$data = $db->fObject('all');
 		forEach ($data as $row) {
-			$list .= "<tab><tab>{$row->alt}";
+			$list .= "{$row->alt}";
 			if ($row->profession !== null) {
 				$list .= " (<highlight>{$row->level}<end>/<green>{$row->ai_level}<end> <highlight>{$row->profession}<end>)";
 			}
 			$online = Buddylist::is_online($row->alt);
 			if ($online === null) {
-				$list .= " - No status.\n";
+				$list .= "\n";
 			} else if ($online == 1) {
 				$list .= " - <green>Online<end>\n";
 			} else {
@@ -90,8 +97,12 @@ class Alts {
 			}
 		}
 		
-		$msg = Text::make_link("Alts of $main", $list, 'blob');
-		
+		if ($char!=$main || $show_main){
+			$msg = Text::make_link("Alts of $main", $list, 'blob');
+		} else {
+			$msg = Text::make_link("Alts", $list, 'blob');
+		}
+
 		return $msg;
 	}
 }

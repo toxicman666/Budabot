@@ -1,70 +1,44 @@
 <?php
-   /*
-   ** Author: Sebuda (RK2)
-   ** Description: General Help/Shows all helpfiles
-   ** Version: 0.3
-   **
-   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
-   **
-   ** Date(created): 01.10.2005
-   ** Date(last modified): 21.11.2006
-   **
-   ** Copyright (C) 2005, 2006 J. Gracik
-   **
-   ** Licence Infos:
-   ** This file is part of Budabot.
-   **
-   ** Budabot is free software; you can redistribute it and/or modify
-   ** it under the terms of the GNU General Public License as published by
-   ** the Free Software Foundation; either version 2 of the License, or
-   ** (at your option) any later version.
-   **
-   ** Budabot is distributed in the hope that it will be useful,
-   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
-   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   ** GNU General Public License for more details.
-   **
-   ** You should have received a copy of the GNU General Public License
-   ** along with Budabot; if not, write to the Free Software
-   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
 
 if (preg_match("/^about$/i", $message) || preg_match("/^help about$/i", $message)) {
-	global $version;
-	$data = file_get_contents("./core/HELP/about.txt");
-	$data = str_replace('<version>', $version, $data);
-	$msg = Text::make_link("About Budabot", $data);
+	$data = file_get_contents("./core/HELP/about_" . $chatBot->vars["name"] . ".txt");
+	$msg = Text::make_link("About <myname>", $data);
 	$chatBot->send($msg, $sendto);
 } else if (preg_match("/^help$/i", $message)) {
-	global $version;
-
-	$sql = "SELECT * FROM hlpcfg_<myname> ORDER BY module ASC";
-	$db->query($sql);
-	$data = $db->fObject('all');
+	$blob = "<header>:::: <myname> help ::::<end>\n\n";
+	$general = file_get_contents("./core/HELP/general.txt");
+	$blob .= "<yellow>::<end> ";
+	$blob .= $general;
 	
-	$help_array = array();
-	forEach ($data as $row) {
-		if (AccessLevel::checkAccess($sender, $row->admin)) {
-			$help_array []= $row;
-		}
+	$blob .= "\n\n<yellow>::<end> Leader commands\n";
+	$commands = array("leader","topic","assist","heal","rally","check","loot","count");
+	foreach($commands as $cmd){
+		$blob .= Text::make_link($cmd,"/tell <myname> !help $cmd",'chatcmd') . " ";
 	}
-
-	if (count($help_array) == 0) {
-		$msg = "<orange>No Helpfiles found.<end>";
-	} else {
-		$blob = "<header> :::: Help Files for Budabot {$version} ::: <end>\n\n";
-		$current_module = '';
-		forEach ($help_array as $row) {
-			if ($current_module != $row->module) {
-				$current_module = $row->module;
-				$blob .= "\n<highlight><u>{$row->module}:</u><end>\n";
-			}
-		
-			$blob .= "  *{$row->name}: {$row->description} <a href='chatcmd:///tell <myname> help {$row->name}'>Click here</a>\n";
-		}
-		$msg = Text::make_link("Help(main)", $blob, 'blob');
+	
+	$blob .= "\n\n<yellow>::<end> Land control\n";
+	$commands = array("lc","scout","open","opentimes");
+	foreach($commands as $cmd){
+		$blob .= Text::make_link($cmd,"/tell <myname> !help $cmd",'chatcmd') . " ";
 	}
+	
+	$blob .= "\n\n<yellow>::<end> Statistics\n";
+	$commands = array("attacks","victory","planttimer");
+	foreach($commands as $cmd){
+		$blob .= Text::make_link($cmd,"/tell <myname> !help $cmd",'chatcmd') . " ";
+	}
+	$blob .= Text::make_link("penalty","/tell <myname> !penalty",'chatcmd') . " ";
+	
+	$blob .= "\n\n<yellow>::<end> Other commands\n";
+	$commands = array("clan","planters","twinks");
+	foreach($commands as $cmd){
+		$blob .= Text::make_link($cmd,"/tell <myname> !help $cmd",'chatcmd') . " ";
+	}
+	
+//	$blob .= "\n\n<yellow>::<end> " . Text::make_link("Attending battle","/tell <myname> !help attend",'chatcmd');
+//	$blob .= "\n\n<yellow>::<end> " . Text::make_link("Leading battle","/tell <myname> !help lead",'chatcmd');
 
+	$msg = Text::make_link("<myname> Help",$blob,'blob');
 	$chatBot->send($msg, $sendto);
 } else if (preg_match("/^help (.+)$/i", $message, $arr)) {
 	$output = Help::find($arr[1], $sender);

@@ -1,0 +1,13 @@
+<header>::::: Rush Commands :::::<end>
+
+<highlight>Display orders<end>
+<tab><symbol>orders
+
+<highlight>Set orders<end>
+<tab><symbol>orders <orders>
+<tab><symbol>orders Box room
+NOTE: Orders will be set by using either of the following: !box, !troom, !2troom or !raidstart
+
+<highlight>Clear orders<end>
+<tab><symbol>orders clear
+NOTE: Orders will be cleared on !raidend

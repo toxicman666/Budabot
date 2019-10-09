@@ -1,33 +1,4 @@
 <?php
-   /*
-   ** Author: Derroylo (RK2)
-   ** Description: Who is online(count design)
-   ** Version: 1.0
-   **
-   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
-   **
-   ** Date(created): 23.11.2005
-   ** Date(last modified): 23.01.2007
-   ** 
-   ** Copyright (C) 2005, 2006 Carsten Lohmann
-   **
-   ** Licence Infos: 
-   ** This file is part of Budabot.
-   **
-   ** Budabot is free software; you can redistribute it and/or modify
-   ** it under the terms of the GNU General Public License as published by
-   ** the Free Software Foundation; either version 2 of the License, or
-   ** (at your option) any later version.
-   **
-   ** Budabot is distributed in the hope that it will be useful,
-   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
-   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   ** GNU General Public License for more details.
-   **
-   ** You should have received a copy of the GNU General Public License
-   ** along with Budabot; if not, write to the Free Software
-   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
 
 if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 	$tl1 = 0;
@@ -38,7 +9,7 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 	$tl6 = 0;
 	$tl7 = 0;
 	
-	$db->query("SELECT * FROM online o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv'");
+	$db->query("SELECT * FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv'");
 	$numonline = $db->numrows();
 	$data = $db->fObject('all');
     forEach ($data as $row) {
@@ -76,14 +47,18 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 	$online["Trader"] = 0;
 	$online["Shade"] = 0;
 
-	$db->query("SELECT count(*) AS count, profession FROM online o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' GROUP BY `profession`");
+	$db->query("SELECT count(*) AS count, profession FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' GROUP BY `profession`");
+	/*
 	$numonline = $db->numrows();
 	$msg = "<highlight>$numonline<end> in total: ";	
-
+	*/
+	$total = 0;
     $data = $db->fObject('all');
     forEach ($data as $row) {
    	    $online[$row->profession] = $row->count;
+		$total += intval($row->count);
 	}
+	$msg = "<highlight>$total<end> in total: ";	
 
 	/*
 	forEach ($online as $prof => $count) {
@@ -97,7 +72,7 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 
   	$chatBot->send($msg, $sendto);
 } else if (preg_match("/^count org$/i", $message, $arr)) {
-	$sql = "SELECT * FROM online WHERE added_by = '<myname>' AND channel_type = 'priv'";
+	$sql = "SELECT * FROM online_<myname> WHERE added_by = '<myname>' AND channel_type = 'priv'";
 	$db->query($sql);
 	$numonline = $db->numrows();
 	
@@ -107,7 +82,7 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 		return;
 	}
 
-	$sql = "SELECT `guild`, count(*) AS cnt, AVG(level) AS avg_level FROM online o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `guild` <> '' GROUP BY `guild` ORDER BY `cnt` DESC, `avg_level` DESC";
+	$sql = "SELECT `guild`, count(*) AS cnt, AVG(level) AS avg_level FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `guild` <> '' GROUP BY `guild` ORDER BY `cnt` DESC, `avg_level` DESC";
 	$db->query($sql);
 	$numorgs = $db->numrows();
 	
@@ -116,7 +91,7 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
     forEach ($data as $row) {
 		$percent = round($row->cnt / $numonline, 2) * 100;
 		$avg_level = round($row->avg_level, 1);
-   	    $blob .= "{$percent}% {$row->guild} - {$row->cnt} member(s), average level {$avg_level}\n";
+   	    $blob .= "{$percent}% " . Text::make_link("{$row->guild}","/tell <myname> !sm {$row->guild}","chatcmd") . " - {$row->cnt} member(s), average level {$avg_level}\n";
 	}
 	
 	$msg = Text::make_link("Organizations ($numorgs total)", $blob, 'blob');
@@ -171,7 +146,7 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 			return;
     }
    
-	$db->query("SELECT * FROM online o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `profession` = '$prof' ORDER BY `level`");
+	$db->query("SELECT * FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `profession` = '$prof' ORDER BY `level`");
     $numonline = $db->numrows();
 	$data = $db->fObject('all');
     $msg = "<highlight>$numonline<end> $prof:";

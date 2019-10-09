@@ -1,6 +1,6 @@
 <header> :::::: Topic for the Raid :::::: <end>
 
-Info: The Topic will be shown when you join the private channel(as tell)
+Info: The Topic will be shown when you join the private channel (as tell)
 
 <highlight>Show the current Topic<end>
 <tab><symbol>topic
@@ -8,5 +8,18 @@ Info: The Topic will be shown when you join the private channel(as tell)
 <highlight>Set a Topic<end>
 <tab><symbol>topic 'text'
 
+<highlight>Set a standard topic for tower site<end>
+<tab><symbol>basetopic 'zone' 'number'
+
 For example
 <tab><symbol>topic Some cool stuff is going on
+
+<tab><symbol>basetopic EFP 8
+
+<red>For moderators:<end>
+
+<highlight>Edit base topic<end>
+<tab><symbol>editbasetopic 'zone' 'number' 'new_topic'
+
+<highlight>Edit base rally<end>
+<tab><symbol>editbaserally 'zone' 'number' 'new_x' 'new_y'

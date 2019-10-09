@@ -30,18 +30,18 @@
    */
 
 if (preg_match("/^.?afk$/i", $message, $arr)) {
-    $db->exec("UPDATE online SET `afk` = 1 WHERE `name` = '$sender' AND added_by = '<myname>' AND channel_type = '$type'");
+    $db->exec("UPDATE online_<myname> SET `afk` = 1 WHERE `name` = '$sender' AND added_by = '<myname>' AND channel_type = 'priv'");
     $msg = "<highlight>$sender<end> is now AFK";
-	$chatBot->send($msg, $type);
+	$chatBot->send($msg, $sendto);
 } else if (preg_match("/^.?afk (.*)$/i", $message, $arr)) {
 	$reason = str_replace("'", "''", $arr[1]);
-    $db->exec("UPDATE online SET `afk` = '$reason' WHERE `name` = '$sender' AND added_by = '<myname>' AND channel_type = '$type'");
+    $db->exec("UPDATE online_<myname> SET `afk` = '$reason' WHERE `name` = '$sender' AND added_by = '<myname>' AND channel_type = 'priv'");
     $msg = "<highlight>$sender<end> is now AFK";
-	$chatBot->send($msg, $type);
+	$chatBot->send($msg, $sendto);
 } else if (preg_match("/^.?kiting$/i", $message, $arr) && $numrows != 0) {
-	$db->exec("UPDATE online SET `afk` = 'kiting' WHERE `name` = '$sender' AND added_by = '<myname>' AND channel_type = '$type'");
+	$db->exec("UPDATE online_<myname> SET `afk` = 'kiting' WHERE `name` = '$sender' AND added_by = '<myname>' AND channel_type = 'priv'");
 	$msg = "<highlight>$sender<end> is now kiting";
-	$chatBot->send($msg, $type);
+	$chatBot->send($msg, $sendto);
 } else {
 	$syntax_error = true;
 }

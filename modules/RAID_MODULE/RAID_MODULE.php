@@ -3,7 +3,7 @@
 
 	$MODULE_NAME = "RAID_MODULE";
 	
-	DB::loadSQLFile($MODULE_NAME, 'raid_loot');
+//	DB::loadSQLFile($MODULE_NAME, 'raid_loot');
 
 	//Loot list and adding/removing of players	
 	Command::register($MODULE_NAME, "", "loot.php", "loot", "leader", "Adds an item to the loot list");
@@ -21,7 +21,7 @@
 	Command::register($MODULE_NAME, "", "rem.php", "rem", "all", "Let a player removing from a slot");
 	
 	// APFs
-	Command::register($MODULE_NAME, "", "13.php", "13", "leader", "Adds apf 13 loot list", 'apfloot');
+/*	Command::register($MODULE_NAME, "", "13.php", "13", "leader", "Adds apf 13 loot list", 'apfloot');
 	Command::register($MODULE_NAME, "", "28.php", "28", "leader", "Adds apf 28 loot list", 'apfloot');
 	Command::register($MODULE_NAME, "", "35.php", "35", "leader", "Adds apf 35 loot list", 'apfloot');
 	Command::register($MODULE_NAME, "", "apf.php", "apf", "all", "Shows what drops of APF Boss", 'apfloot');
@@ -59,21 +59,21 @@
 	Command::register($MODULE_NAME, "", "xan.php", "vortexx", "all", "Shows Possible Vortexx Loot", 'xan');
 	Command::register($MODULE_NAME, "", "xan.php", "mitaar", "all", "Shows Possible Mitaar Hero Loot", 'xan');
 	Command::register($MODULE_NAME, "", "xan.php", "12m", "all", "Shows Possible 12 man Loot", 'xan');
-	
+*/	
 	// Settings
 	Setting::add($MODULE_NAME, "add_on_loot", "Adding to loot show on", "edit", "options", "2", "tells;privatechat;privatechat and tells", '1;2;3', "mod");
 
 	// Help files
 	Help::register($MODULE_NAME, "add", "add_rem.txt", "all", "Adding to a lootitem");
 	Help::register($MODULE_NAME, "rem", "add_rem.txt", "all", "Removing your bid on a lootitem");
-	Help::register($MODULE_NAME, "loot", "flatroll.txt", "leader", "Adding an item to be flatrolled");
-	Help::register($MODULE_NAME, "remloot", "flatroll.txt", "leader", "Removing an item from a flatroll list");
-	Help::register($MODULE_NAME, "rollloot", "flatroll.txt", "leader", "Flatroll an item");
-	Help::register($MODULE_NAME, "multiloot", "flatroll.txt", "leader", "Adding multiple of an item to be rolled");
+	Help::register($MODULE_NAME, "loot", "flatroll.txt", "all", "Adding an item to be flatrolled");
+	Help::register($MODULE_NAME, "remloot", "flatroll.txt", "all", "Removing an item from a flatroll list");
+	Help::register($MODULE_NAME, "rollloot", "flatroll.txt", "all", "Flatroll an item");
+	Help::register($MODULE_NAME, "multiloot", "flatroll.txt", "all", "Adding multiple of an item to be rolled");
 	
-	Help::register($MODULE_NAME, "apfloot", "apfloot.txt", "guild", "Show the Loots of the APF");
+/*	Help::register($MODULE_NAME, "apfloot", "apfloot.txt", "guild", "Show the Loots of the APF");
 	Help::register($MODULE_NAME, "dbloot", "dbloot.txt", "all", "Loot manager for DB1/DB2 Instance");
 	Help::register($MODULE_NAME, "pande", "pande.txt", "all", "Loot manager for Pandemonium Raid loot");
 	Help::register($MODULE_NAME, "albloot", "albloot.txt", "all", "Loot manager for Albtraum Instance");
-	Help::register($MODULE_NAME, "xan", "xan.txt", "all", "Loot manager for Xan playfield");
+	Help::register($MODULE_NAME, "xan", "xan.txt", "all", "Loot manager for Xan playfield"); */
 ?>

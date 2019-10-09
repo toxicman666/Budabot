@@ -29,13 +29,14 @@
    ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
    */
 
-if ($chatBot->settings["leaderecho"] == 1) {
+$chatBot->settings["leaderecho"] = 1;
+//if ($chatBot->settings["leaderecho"] == 1) {
 	$status = "<green>Enabled<end>";
 	$cmd = "off";
-} else {
-	$status = "<red>Disabled<end>";
-	$cmd = "on";
-}
+//} else {
+//	$status = "<red>Disabled<end>";
+//	$cmd = "on";
+//}
 
 if (preg_match("/^leader$/i", $message)) {
   	if ($chatBot->data["leader"] == $sender) {

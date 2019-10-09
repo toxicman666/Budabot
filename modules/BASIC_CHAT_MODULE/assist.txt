@@ -1,7 +1,25 @@
 <header>::::: Creating an assist macro :::::<end>
 
 <highlight>Set a new assist<end>
-<tab><symbol>assist 'name'
+<tab><symbol>assist 'name1' 'name2' 
 
 <highlight>Show current assist<end>
 <tab><symbol>assist
+
+<highlight>Add player(s) to assist<end>
+<tab><symbol>addassist 'name1' 'name2'
+
+<highlight>Remove player from assist<end>
+<tab><symbol>remassist 'name'
+
+<highlight>Clear assist<end>
+<tab><symbol>remassist
+
+<highlight>Display Team Assist<end>
+<tab><symbol>teamassist
+
+<highlight>Set Team Assist<end>
+<tab><symbol>teamassist 'team1' 'team2' 'team3'
+
+<highlight>Clear Team Assist<end>
+<tab><symbol>teamassist clear

@@ -1,38 +1,34 @@
 <?php
-   /*
-   ** Author: Derroylo (RK2)
-   ** Description: Check Temp bans
-   ** Version: 0.1
-   **
-   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
-   **
-   ** Date(created): 05.06.2006
-   ** Date(last modified): 10.12.2006
-   ** 
-   ** Copyright (C) 2006 Carsten Lohmann
-   **
-   ** Licence Infos: 
-   ** This file is part of Budabot.
-   **
-   ** Budabot is free software; you can redistribute it and/or modify
-   ** it under the terms of the GNU General Public License as published by
-   ** the Free Software Foundation; either version 2 of the License, or
-   ** (at your option) any later version.
-   **
-   ** Budabot is distributed in the hope that it will be useful,
-   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
-   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   ** GNU General Public License for more details.
-   **
-   ** You should have received a copy of the GNU General Public License
-   ** along with Budabot; if not, write to the Free Software
-   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
 
 forEach ($chatBot->banlist as $ban){
 	if ($ban->banend != null && ((time() - $ban->banend) >= 0)) {
-	 	 $db->exec("DELETE FROM banlist_<myname> WHERE name = '{$ban->name}'");
-	}	
+	 	 $db->exec("DELETE FROM banlist WHERE name = '{$ban->name}'");
+		 
+		// unban on forums
+		$main = Alts::get_main($ban->name);		
+		$alts = Alts::get_alts($main);
+		// forums
+		// check if main registered
+		$sql = "SELECT ag.id, ag.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username WHERE jo.name='$main'";
+		$db->query($sql);
+		if ($db->numrows() != 0) {
+			$row = $db->fObject();
+			$ag_id = $row->id;
+			$sql = "UPDATE omnihqdb.jos_agora_user_group SET role_id=2 WHERE user_id={$ag_id} AND role_id=1;";
+			$db->exec($sql);
+		}
+		// check if alts registered
+		foreach($alts as $alt){
+			$sql = "SELECT ag.id, ag.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username WHERE jo.name='$alt'";
+			$db->query($sql);
+			if ($db->numrows() != 0) {
+				$row = $db->fObject();
+				$ag_id = $row->id;
+				$sql = "UPDATE omnihqdb.jos_agora_user_group SET role_id=2 WHERE user_id={$ag_id} AND role_id=1;";
+				$db->exec($sql);
+			}
+		}
+	}
 }
 
 Ban::upload_banlist();

@@ -216,12 +216,14 @@ if (preg_match("/^add$/i", $message)) {
 	    $loot[$slot]["users"][$sender] = true;
 	
 	    if ($found == false) {
-		    $msg = "You have been assigned to the roll of <highlight>\"{$loot[$slot]["name"]}\"<end>.";
+			$pmsg = " added to <highlight>\"{$loot[$slot]["name"]}\"<end>";
 		} else {
-			$msg = "You have moved to the roll of <highlight>\"{$loot[$slot]["name"]}\"<end>.";
+			$pmsg = " moved to <highlight>\"{$loot[$slot]["name"]}\"<end>";
 		}
-		
+		$msg = "You have" . $pmsg;
+		$pmsg = $sender ." has". $pmsg . " " . Raid::get_current_loot_list();
 	  	$chatBot->send($msg, $sender);
+		$chatBot->send($pmsg, 'priv');
 	} else {
 		$chatBot->send("No list available where you can add in.", $sender);
 	}

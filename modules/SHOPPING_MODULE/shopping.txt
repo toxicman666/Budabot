@@ -1,7 +1,0 @@
-<header> :::::: Shopping Commands :::::: <end>
-
-<highlight>Find items for sale<end>
-<symbol>wtb 'name'
-
-<highlight>Find items people want to buy<end>
-<symbol>wts 'name'

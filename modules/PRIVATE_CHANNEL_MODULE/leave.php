@@ -29,7 +29,7 @@
    ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
    */
 
-if (preg_match("/^leave$/i", $message)) {
+if (preg_match("/^leave$/i", $message) || preg_match("/^kick$/i", $message)) {
 	$chatBot->privategroup_kick($sender);
 }
 

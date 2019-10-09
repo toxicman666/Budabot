@@ -43,7 +43,7 @@ if (preg_match("/^history (.+)$/i", $message, $arr)) {
 		} else {
 			$link  = "<header>::::: History from $name ::::::<end>\n\n";
 			$link .= "<highlight>Options:<end>\n";
-			$link .= "<tab><tab><a href='chatcmd:///start $url_orig'>Show History in your browser</a>\n";
+		//	$link .= "<tab><tab><a href='chatcmd:///start $url_orig'>Show History in your browser</a>\n";
 			$link .= "<tab><tab><a href='chatcmd:///tell <myname> alts $name'>Show Alts</a> \n";
 			$link .= "<tab><tab><a href='chatcmd:///tell <myname> whois $name'>Whois</a>\n";
 			$link .= "<tab><tab><a href='chatcmd:///cc addbuddy $name'>Add to your friendslist</a>\n";

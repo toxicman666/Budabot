@@ -1,0 +1,13 @@
+<header>::::: Rally Command :::::<end>
+
+<highlight>Set a rally<end>
+<tab><symbol>rally 'playfield' 'x' 'y'
+
+<highlight>Set a rally in current playfield<end>
+<tab><symbol>rally 'x' 'y'
+
+<highlight>Display rally<end>
+<tab><symbol>rally
+
+<highlight>Clear rally<end>
+<tab><symbol>rally clear

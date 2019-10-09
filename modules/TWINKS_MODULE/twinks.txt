@@ -1,0 +1,21 @@
+<header>::::: Twinks Commands :::::<end>
+
+<highlight>Add yourself (and all alts) to twinks<end>
+<tab><symbol>iamtwink
+
+<highlight>Remove yourself (and all alts) from twinks<end>
+<tab><symbol>iamtwink not
+
+<red>Only listed RLs can lookup twinks<end>
+<highlight>Shows all twinks online<end>
+<tab><symbol>twinks
+
+<highlight>Shows twinks in level range<end>
+<tab><symbol>twinks 'min' 'max'
+<tab><green><symbol>twinks 100 120<end>
+
+<highlight>Finish lookup if it's stuck for some reason<end>
+<tab><symbol>twinks end
+
+<highlight>Finish lookup if it's stuck for some reason<end>
+<tab><symbol>twink rem 'name'

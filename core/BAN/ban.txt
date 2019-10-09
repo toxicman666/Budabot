@@ -3,33 +3,53 @@
 <highlight>To show the current banned player<end>
 <tab>/tell <myname> banlist
 
+<highlight>Show ban history (last 30 items)<end>
+<tab><symbol>banhistory
+<highlight>Show ban history (full)<end>
+<tab><symbol>banhistory full
+
+<highlight>Quick ban for listed raidleaders (30min)<end>
+<tab><symbol>quickban 'name'
+<tab><symbol>fastban 'name'
+<tab><green><symbol>quickban Junkstab<end>
+<tab><green><symbol>fastban Junkstab<end>
+
 <highlight>To temporally ban a player from the bot (without a reason specified)<end>
-<tab>/tell <myname> ban 'time' 'playername'
+<tab>/tell <myname> ban 'playername' 'time'
 <tab>(for time is allowed 1-50weeks, 1-100days or 1-12months)
 For example:
-<tab>/tell <myname> ban 2weeks badplayer
-<tab>(bans badplayer for 2weeks from the bot)
+<tab>/tell <myname> ban Junkstab 2weeks
+<tab>(bans Junkstab for 2weeks from the bot)
 
 <highlight>To temporally ban a player from the bot (with a reason specified)<end>
-<tab>/tell <myname> ban 'time' 'playername' reason 'reason for the ban'
+<tab>/tell <myname> ban 'playername' 'time' reason 'reason for the ban'
 <tab>(for time is allowed 1-50weeks, 1-100days or 1-12months)
 For example:
-<tab>/tell <myname> ban 2weeks badplayer reason Ninjalooter
-(bans badplayer for 2weeks from the bot with the reason Ninjalooter)
+<tab>/tell <myname> ban Junkstab 2weeks reason Ninjalooter
+(bans Junkstab for 2weeks from the bot with the reason Ninjalooter)
 
 <highlight>To permanent ban a player from the bot (without a reason specified)<end>
 <tab>/tell <myname> ban 'playername'
 For example:
-<tab>/tell <myname> ban badplayer
-<tab>(bans badplayer from the bot)
+<tab>/tell <myname> ban Junkstab
+<tab>(bans Junkstab from the bot)
 
 <highlight>To permanent ban a player from the bot (with a reason specified)<end>
 <tab>/tell <myname> ban 'playername' reason 'reason for the ban'
 For example:
-<tab>/tell <myname> ban badplayer reason Ninjalooter
-<tab>(bans badplayer from the bot with the reason Ninjalooter)
+<tab>/tell <myname> ban Junkstab reason Ninjalooter
+<tab>(bans Junkstab from the bot with the reason Ninjalooter)
 
 <highlight>To remove a ban on a player<end>
 <tab>/tell <myname> unban 'playername'
 For example:
-<tab>/tell <myname> unban badplayer
+<tab>/tell <myname> unban Junkstab
+
+<highlight>To permanent ban a whole org<end>
+<tab>/tell <myname> banorg 'orgname'
+For example:
+<tab><green>/tell <myname> banorg Union Divine
+
+<highlight>To remove a ban from an org<end>
+<tab>/tell <myname> unbanorg 'orgname'
+<tab><green>/tell <myname> unbanorg Union Divine<end>

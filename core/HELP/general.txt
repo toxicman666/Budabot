@@ -1,0 +1,14 @@
+General Help
+
+<highlight>See topic<end>
+<tab><symbol>topic
+<highlight>See rally coordinates<end>
+<tab><symbol>rally
+<highlight>Display assist macro<end>
+<tab><symbol>assist
+<highlight>See members online<end>
+<tab><symbol>sm
+<highlight>Leave channel<end>
+<tab><symbol>kick
+<highlight>Add alts<end>
+<tab><symbol>alts add 'name1' 'name2' 'name3'

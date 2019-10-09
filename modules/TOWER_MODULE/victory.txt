@@ -15,10 +15,10 @@
 <tab><symbol>victory EFP 5 2
 
 <highlight>To see the last 20 victory messages for specific person:<end>
-<tab><symbol>victory player Tyrence
+<tab><symbol>victory player Toxicman
 
 <highlight>To see page 2 of the last victory messages for specific person:<end>
-<tab><symbol>victory player Tyence 2
+<tab><symbol>victory player Toxicman 2
 
 <highlight>To see the last 20 victory messages for specific guild:<end>
 <tab><symbol>victory org The Pain Dealers

@@ -1,0 +1,8 @@
+<header>::::: Confirm and Update your forum account :::::<end>
+
+<highlight>Confirming account after activation AND first login<end>
+<tab><symbol>confirm 'email'
+<tab><green><symbol>confirm example@example.com<end>
+
+<highlight>update account if you leveled or changed org<end>
+<tab><symbol>update

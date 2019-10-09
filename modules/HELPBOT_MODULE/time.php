@@ -67,10 +67,8 @@ $timezone["EEST"]["name"] = "Eastern European Summer Time (GMT+3)";
 $timezone["EEST"]["time"] = gmdate("dS M, H:i", $time + (3600*3));
 $timezone["EEDT"]["name"] = "Eastern European Daylight Time (GMT+3)";
 $timezone["EEDT"]["time"] = gmdate("dS M, H:i", $time + (3600*3));
-$timezone["MSK"]["name"] = "Moscow Time (GMT+3)";
-$timezone["MSK"]["time"] = gmdate("dS M, H:i", $time + (3600*3));
-$timezone["MSD"]["name"] = "Moscow Daylight Time (GMT+4)";
-$timezone["MSD"]["time"] = gmdate("dS M, H:i", $time + (3600*4));
+$timezone["MSK"]["name"] = "Moscow Time (GMT+4)";
+$timezone["MSK"]["time"] = gmdate("dS M, H:i", $time + (3600*4));
 $timezone["IRT"]["name"] = "Iran Time (GMT+3:30)";
 $timezone["IRT"]["time"] = gmdate("dS M, H:i", $time + (3600*3.5));
 $timezone["IST"]["name"] = "Indian Standard Time (GMT+5:30)";
@@ -117,8 +115,7 @@ if (preg_match("/^time$/i", $message)) {
 	$link .= "<tab><tab>Standard Time (EET = GMT+2): {$timezone["EET"]["time"]}\n";
 	$link .= "<tab><tab>Summer Time (EEST/EEDT = GMT+3): {$timezone["EEST"]["time"]}\n";
 	$link .= "<tab><highlight>Bahrain/Irak/Russland/Saudi Arabien<end>\n";
-	$link .= "<tab><tab>Standard Time (MSK = GMT+3): {$timezone["MSK"]["time"]}\n";
-	$link .= "<tab><tab>Summer Time (MSD = GMT+4): {$timezone["MSD"]["time"]}\n\n";
+	$link .= "<tab><tab>Standard Time (MSK = GMT+4): {$timezone["MSK"]["time"]}\n";
 	$link .= "<highlight>Indien (GMT+5:30)<end>: {$timezone["IST"]["time"]}\n\n";
 	$link .= "<highlight>Iran (GMT+3:30)<end>: {$timezone["IRT"]["time"]}\n\n";
 

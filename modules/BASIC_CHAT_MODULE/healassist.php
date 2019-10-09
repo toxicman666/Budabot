@@ -30,14 +30,30 @@
    */
 
 if (preg_match("/heal$/i", $message)) {
-  	if (isset($chatBot->data['heal_assist'])) {
-		$link = "<header>::::: Healassist Macro on {$chatBot->data['heal_assist']}:::::\n\n";
-	  	$link .= "<a href='chatcmd:///macro {$chatBot->data['heal_assist']} /assist {$chatBot->data['heal_assist']}'>Click here to make a heal assist macro on {$chatBot->data['heal_assist']}</a>";
-		$msg = Text::make_link("Current Healassist is {$chatBot->data['heal_assist']}", $link);
+	$healass=Setting::get('healassist');
+  	if ($healass!="") {
+		$arr=explode(" ", $healass);
+		if(count($arr)==1){
+			$link = "<header>::::: Healassist Macro on $healass:::::\n\n";
+			$link .= "<a href='chatcmd:///macro HEAL /assist $healass'>Click here to make a heal assist macro on $healass</a>";
+			$msg = Text::make_link("Current Healassist is $healass", $link);
+		} else {
+			$msg = "<font color=\"#FFFF00\">/macro HEAL /assist " . $arr[0];
+			for($i=1;$i<count($arr);$i++) $msg.= "\\n /assist " . $arr[$i];
+			$msg.="</font>";
+		}
 	} else {
-		$msg = "No Healassist set atm.";
+		$chatBot->send("No Healassist set.", $sendto);
 	}
-	$chatBot->send($msg, 'priv');
+	if($msg!=""){
+		if($chatBot->data["leader"]==$sender){
+			$chatBot->send($msg, 'priv');
+			$chatBot->send($msg, 'priv');
+			$chatBot->send($msg, 'priv');
+		} else {
+			$chatBot->send($msg, $sendto);
+		}
+	}
 } else {
 	$syntax_error = true;
 }

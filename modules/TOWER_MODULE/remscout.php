@@ -1,5 +1,5 @@
 <?php
-if (preg_match("/^remscout ([a-z0-9]+) ([0-9]+)$/i", $message, $arr)) {
+if (preg_match("/^unscout ([a-z0-9]+) ([0-9]+)$/i", $message, $arr)) {
 	$playfield_name = $arr[1];
 	$site_number = $arr[2];
 	

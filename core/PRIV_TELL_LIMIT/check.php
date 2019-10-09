@@ -1,48 +1,17 @@
 <?php
-   /*
-   ** Author: Derroylo (RK2)
-   ** Description: Check if a player mets the requirements for joining Privatechannel or responding on the tell
-   ** Version: 0.2
-   **
-   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
-   **
-   ** Date(created): 15.10.2006
-   ** Date(last modified): 23.01.2007
-   **
-   ** Copyright (C) 2006, 2007 Carsten Lohmann
-   **
-   ** Licence Infos:
-   ** This file is part of Budabot.
-   **
-   ** Budabot is free software; you can redistribute it and/or modify
-   ** it under the terms of the GNU General Public License as published by
-   ** the Free Software Foundation; either version 2 of the License, or
-   ** (at your option) any later version.
-   **
-   ** Budabot is distributed in the hope that it will be useful,
-   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
-   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   ** GNU General Public License for more details.
-   **
-   ** You should have received a copy of the GNU General Public License
-   ** along with Budabot; if not, write to the Free Software
-   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
+
    
-if (preg_match("/^about$/i", $message)) {
+if (Whitelist::check($sender) || isset($chatBot->admins[$sender]) || $sender == ucfirst(strtolower($chatBot->settings["relaybot"]))) {
 	// nothing to do
 	return;
-} else if (Whitelist::check($sender) || isset($chatBot->admins[$sender]) || $sender == ucfirst(strtolower($chatBot->settings["relaybot"]))) {
-	// nothing to do
-	return;
-} else if (preg_match("/^join$/i", $message)) {
+} else if (preg_match("/^(join|confirm|confirm (.+)|update)$/i", $message)) {
 	//If the incoming message was a join request
 	//Chek if he is a member of the Bot
 	$is_member = false;
 	if ($chatBot->settings["priv_req_open"] == "members") {
 	  	$db->query("SELECT * FROM members_<myname> WHERE `name` = '$sender'");
 		if ($db->numrows() == 0) {
-		  	$msg = "<orange>Error! Only Members of this bot can join this bot.<end>";
+		  	$msg = "<orange>This bot is locked to members.<end>";
 		  	$chatBot->send($msg, $sender);
   		  	$restricted = true;
 		  	return;
@@ -52,18 +21,18 @@ if (preg_match("/^about$/i", $message)) {
 	}
 
 	//Check if he is a org Member
-	if ($chatBot->settings["priv_req_open"] == "org" && !isset($chatBot->guildmembers)) {
+/*	if ($chatBot->settings["priv_req_open"] == "org" && !isset($chatBot->guildmembers)) {
 	  	$msg = "<orange>Error! Only members of the org <myguild> can join this bot.<end>";
 	  	$chatBot->send($msg, $sender);
 	  	$restricted = true;
 	  	return;
-	}
+	} */
 	
 	//Get his character infos if minlvl or faction is set
 	if ($chatBot->settings["priv_req_lvl"] != 0 || $chatBot->settings["priv_req_faction"] != "all") {
 		$whois = Player::get_by_name($sender);
 	   	if ($whois === null) {
-		    $msg = "<orange>Error! Unable to get your character info. Please try again later.<end>";
+		    $msg = "<orange>Unable to get your character info. Please try again later.<end>";
 		    $chatBot->send($msg, $sender);
 		  	$restricted = true;
 		    return;
@@ -72,7 +41,7 @@ if (preg_match("/^about$/i", $message)) {
 	
 	//Check the Minlvl
 	if ($chatBot->settings["priv_req_lvl"] != 0 && $chatBot->settings["priv_req_lvl"] > $whois->level) {
-	  	$msg = "<orange>Error! You need to be at least {$chatBot->settings["priv_req_lvl"]} to join this bot.<end>";
+	  	$msg = "<orange>You have to be at least level {$chatBot->settings["priv_req_lvl"]} to use this bot.<end>";
 	    $chatBot->send($msg, $sender);
 	  	$restricted = true;
 	    return;
@@ -80,14 +49,14 @@ if (preg_match("/^about$/i", $message)) {
 	
 	//Check the Faction Limit
 	if (($chatBot->settings["priv_req_faction"] == "Omni" || $chatBot->settings["priv_req_faction"] == "Clan" || $chatBot->settings["priv_req_faction"] == "Neutral") && $chatBot->settings["priv_req_faction"] != $whois->faction) {
-	  	$msg = "<orange>Error! Only Members of the Faction {$chatBot->settings["priv_req_faction"]} can join this bot.<end>";
+	  	$msg = "<orange>You have your own bot.<end>";
 	    $chatBot->send($msg, $sender);
 	  	$restricted = true;
 	    return;
 	} else if ($chatBot->settings["priv_req_faction"] == "not Omni" || $chatBot->settings["priv_req_faction"] == "not Clan" || $chatBot->settings["priv_req_faction"] == "not Neutral") {
 		$tmp = explode(" ", $chatBot->settings["priv_req_faction"]);
 		if ($tmp[1] == $whois->faction) {
-			$msg = "<orange>Error! Only members that are not in the Faction {$tmp[1]} can join this bot.<end>";
+			$msg = "<orange>You have your own bot.<end>";
 		    $chatBot->send($msg, $sender);
 		  	$restricted = true;
 		    return;
@@ -102,11 +71,11 @@ if (preg_match("/^about$/i", $message)) {
 	    return;
 	}
 } else {
-	//Chek if he is a member of the Bot
+	//Check if he is a member of the Bot
 	if ($chatBot->settings["tell_req_open"] == "members") {
 	  	$db->query("SELECT * FROM members_<myname> WHERE `name` = '$sender'");
 		if ($db->numrows() == 0) {
-		  	$msg = "<orange>Error! I am only responding to members of this bot!<end>.";
+		  	$msg = "<orange>I am only responding to members of this bot!<end>";
 		  	$chatBot->send($msg, $sender);
   		  	$restricted = true;
 		  	return;
@@ -114,18 +83,20 @@ if (preg_match("/^about$/i", $message)) {
 	}
 
 	//Check if he is a org Member
+	/*
 	if ($chatBot->settings["tell_req_open"] == "org" && !isset($chatBot->guildmembers[$sender])) {
-	  	$msg = "<orange>Error! I am only responding to members of the org <myguild>.<end>";
+	  	$msg = "<orange>I am only responding to members of the org <myguild>.<end>";
 	  	$chatBot->send($msg, $sender);
 	  	$restricted = true;
 	  	return;
 	}
+	*/
 	
 	//Get his character infos if minlvl or faction is set
 	if ($chatBot->settings["tell_req_lvl"] != 0 || $chatBot->settings["tell_req_faction"] != "all") {
 		$whois = Player::get_by_name($sender);
 	   	if ($whois === null) {
-		    $msg = "<orange>Error! Unable to get your character info. Please try again later.<end>";
+		    $msg = "<orange>Unable to get your character info. Please try again later.<end>";
 		    $chatBot->send($msg, $sender);
 		  	$restricted = true;
 		    return;
@@ -134,7 +105,7 @@ if (preg_match("/^about$/i", $message)) {
 	
 	//Check the Minlvl
 	if ($chatBot->settings["tell_req_lvl"] != 0 && $chatBot->settings["tell_req_lvl"] > $whois->level) {
-	  	$msg = "<orange>Error! I am only responding to players that are higher then Level {$chatBot->settings["tell_req_lvl"]}.<end>";
+	  	$msg = "<orange>You have to be at least level {$chatBot->settings["tell_req_lvl"]} to use this bot.<end>";
 	    $chatBot->send($msg, $sender);
    	  	$restricted = true;
 	    return;
@@ -142,18 +113,26 @@ if (preg_match("/^about$/i", $message)) {
 	
 	//Check the Faction Limit
 	if (($chatBot->settings["tell_req_faction"] == "Omni" || $chatBot->settings["tell_req_faction"] == "Clan" || $chatBot->settings["tell_req_faction"] == "Neutral") && $chatBot->settings["tell_req_faction"] != $whois->faction) {
-	  	$msg = "<orange>Error! I am only responding to members of the Faction {$chatBot->settings["tell_req_faction"]}.<end>";
+	  	$msg = "<orange>You have your own bot.<end>";
 	    $chatBot->send($msg, $sender);
 	  	$restricted = true;
 	    return;
 	} else if ($chatBot->settings["tell_req_faction"] == "not Omni" || $chatBot->settings["tell_req_faction"] == "not Clan" || $chatBot->settings["tell_req_faction"] == "not Neutral") {
 		$tmp = explode(" ", $chatBot->settings["tell_req_faction"]);
 		if ($tmp[1] == $whois->faction) {
-			$msg = "<orange>Error! I am responding only to members that are not in the Faction {$tmp[1]}.<end>";
+			$msg = "<orange>You have your own bot.<end>";
 		    $chatBot->send($msg, $sender);
     	  	$restricted = true;
 		    return;
 		}
+	}
+	
+	//Check if the person is in channel
+	if(!isset($chatBot->chatlist[$sender])){
+		$msg="<orange>Join the bot to use commands.<end>";
+		$chatBot->send($msg, $sender);
+		$restricted = true;
+		return;
 	}
 }
 ?>

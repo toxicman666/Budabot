@@ -1,0 +1,6 @@
+<header> :::::: Warleaders :::::: <end>
+
+<highlight>Omni-tek notum wars bot. (Leaders)<end>
+<highlight>Forums:<end> <a href='chatcmd:///start http://www.omnihq.net'>http://www.omnihq.net</a>
+
+<orange>- Restricted to War leaders<end>

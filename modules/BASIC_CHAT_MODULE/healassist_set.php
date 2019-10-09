@@ -1,54 +1,54 @@
 <?php
-   /*
-   ** Author: Derroylo (RK2)
-   ** Description: Creates a Doc Assist Macro
-   ** Version: 1.0
-   **
-   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
-   **
-   ** Date(created): 05.06.2006
-   ** Date(last modified): 05.06.2006
-   ** 
-   ** Copyright (C) 2006 Carsten Lohmann
-   **
-   ** Licence Infos: 
-   ** This file is part of Budabot.
-   **
-   ** Budabot is free software; you can redistribute it and/or modify
-   ** it under the terms of the GNU General Public License as published by
-   ** the Free Software Foundation; either version 2 of the License, or
-   ** (at your option) any later version.
-   **
-   ** Budabot is distributed in the hope that it will be useful,
-   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
-   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   ** GNU General Public License for more details.
-   **
-   ** You should have received a copy of the GNU General Public License
-   ** along with Budabot; if not, write to the Free Software
-   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
 
-if (preg_match("/^heal (.+)$/i", $message, $arr)) {
+if (preg_match("/^heal ([a-z0-9- ]+)$/i", $message, $arr)) {
     $name = $arr[1];
     $uid = $chatBot->get_uid(ucfirst(strtolower($name)));
     if ($uid) {
 		$name = ucfirst(strtolower($name));
-		$chatBot->data['heal_assist'] = $name;
+		Setting::save('healassist', $name);
 		$link = "<header>::::: HealAssist Macro on $name :::::\n\n";
-		$link .= "<a href='chatcmd:///macro $name /assist $name'>Click here to make an healassist on $name macro</a>";
+		$link .= "<a href='chatcmd:///macro HEAL /assist $name'>Click here to make an healassist on $name macro</a>";
 		$msg = Text::make_link("HealAssist Macro on $name", $link);
 		$chatBot->send($msg, 'priv');
 		$chatBot->send($msg, 'priv');
 		$chatBot->send($msg, 'priv');
 	} else {
-	  	$chatBot->data['heal_assist'] = $name;
-		$link = "<header>::::: HealAssist Macro on $name :::::\n\n";
-	  	$link .= "<a href='chatcmd:///macro $name /assist $name'>Click here to make an healassist on $name macro</a>";
-	  	$msg = Text::make_link("HealAssist Macro on $name", $link);
-		$chatBot->send($msg, 'priv');
-		$chatBot->send($msg, 'priv');
-		$chatBot->send($msg, 'priv');
+		$err="";
+		$arr_str="";
+		$name_arr = explode (" ",$name);
+		$arr=array();
+		foreach($name_arr as $nm){
+			$nm = ucfirst(strtolower($nm));
+			$id = $chatBot->get_uid(ucfirst(strtolower($nm)));
+			if(!$id) $err.=" $nm";
+			else if(!in_array($nm,$arr)){
+				$arr[]=$nm;
+				$arr_str = $nm . " " . $arr_str;
+			}
+		}
+		if(count($arr)>1){
+			$arr = array_reverse($arr);
+			$msg = "<font color=\"#FFFF00\">/macro HEAL /assist " . $arr[0];
+			for($i=1;$i<count($arr);$i++) $msg.= "\\n /assist " . $arr[$i];
+			$msg.="</font>";
+			$arr_str=trim($arr_str);
+			Setting::save('healassist', $arr_str);
+		} else if (count($arr)==1){
+			$name = $arr[0];
+			Setting::save('healassist', $name);
+			$link = "<header>::::: HealAssist Macro on $name :::::\n\n";
+			$link .= "<a href='chatcmd:///macro $name /assist $name'>Click here to make a healassist on $name macro</a>";
+			$msg = Text::make_link("HealAssist Macro on $name", $link);
+		}
+		if($err!=""){
+			$err="Check:<highlight>" . $err . "<end>";
+			$chatBot->send($err,$sendto);
+		}
+		if($msg!=""){
+			$chatBot->send($msg, 'priv');
+			$chatBot->send($msg, 'priv');
+			$chatBot->send($msg, 'priv');
+		}		
 	}
 } else {
 	$syntax_error = true;

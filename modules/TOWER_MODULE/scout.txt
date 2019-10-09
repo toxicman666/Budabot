@@ -1,10 +1,22 @@
 <header>::::: Scout Commands :::::<end>
 
 <highlight>To scout a base:<end>
-<tab><symbol>scout zone site_number closing_time ct_ql faction guild_name
-
+<tab><symbol>scout zone # close ct_ql side org
+(all required info is written on Control Tower;
+close time is 'created' time)
+ 
 For instance:
-<tab><symbol>scout PW 4 12:34:56 190 clan Dark Ninjas
+<tab><symbol>scout PW 4 12:34:56 190 Omni Amphiaraus
 
-<highlight>To see the list of scouted bases:<end>
-<tab><symbol>opentimes
+<highlight>To scout a base bypassing closing time and org checks:<end>
+<tab><symbol>forcescout zone # close ct side org
+
+<highlight>To see the list of unscouted bases:<end>
+<tab><symbol>scoutneeded
+
+<highlight>Display top scouts<end>
+<tab><symbol>topscout
+
+<highlight>Unscout tower site (if incorrectly scouted)
+<tab><symbol>unscout zone #
+<tab><symbol>unscout PM 6

@@ -30,6 +30,8 @@
    */
 
 if (preg_match("/^banlist$/i", $message)) {
+	Ban::upload_banlist();
+	
   	if (count($chatBot->banlist) == 0) {
 	    $chatBot->send("No one is currently banned from this bot.", $sendto);
 	    return;
@@ -38,10 +40,10 @@ if (preg_match("/^banlist$/i", $message)) {
 	$list .= "<header>::::: Banlist :::::<end>\n\n";
 	forEach ($chatBot->banlist as $ban) {
 		$list .= "<highlight>Name:<end> {$ban->name}\n";
-		$list .= "<highlight><tab>Date:<end> ".date("d-M-Y", $ban->time)."\n";
+		$list .= "<highlight><tab>Date:<end> ".date("d-M-Y H:i", $ban->time)."\n";
 		$list .= "<highlight><tab>By:<end> {$ban->admin}\n";
 		if ($ban->banend != null) {
-			$list .= "<highlight><tab>Banned until:<end> ".date("d-M-Y", $ban->banend)."\n";
+			$list .= "<highlight><tab>Banned until:<end> ".date("d-M-Y H:i", $ban->banend)."\n";
 		}
 		
 		if ($ban->reason != '') {

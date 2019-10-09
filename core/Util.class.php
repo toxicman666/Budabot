@@ -23,18 +23,20 @@ class Util {
 		
 		$seconds = $remainder;
 		
+		$timeshift = "";
 		if ($days != 0) {
 			$timeshift .= $days . ' days ';
 		}
-		if ($hours != 0) {
+		if ($hours != 0 && $time<259200) {
 			$timeshift .= $hours . ' hrs ';
 		}
-		if ($minutes != 0) {
+		if ($minutes != 0 && $time<86400) {
 			$timeshift .= $minutes . ' min ';
 		}
-		if ($seconds != 0) {
-			$timeshift .= $seconds . ' sec';
+		if ($seconds != 0 && $time<4800) {
+			$timeshift .= $seconds . ' sec ';
 		}
+		$timeshift = substr($timeshift, 0, -1);
 		return $timeshift;
 	}
 	
