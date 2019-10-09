@@ -34,4 +34,8 @@ Running:
 - Requires screen application installed for full automation
 - Set up cron script to run Warbot.sh every 1 minute to ensure automatic restart
 
+Taratime:
+
+Use branch "Taratime" for Taratime code with points, raids and all other features
+
 ** TO BE CONTINUED **
