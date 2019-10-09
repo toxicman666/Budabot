@@ -1,0 +1,34 @@
+This is a fork of Budabot version 2.2_GA
+that was used as a core for building Warbot and Taratime bots for RK2 in 2010-2011.
+
+I have decided to publish all the code as is so maybe somebody could make use of it
+and all the work doesn't go to waste.
+
+If you decide to fully use this source I would encourage you to PR your changes back to this fork.
+
+Installation:
+
+The bot is designed to run with 3 (+1) characters:
+Twinkbot - bot for low level tower pvp
+Warbot - bot for high level tower pvp 201+
+Warleaders - bot for faction leaders
+Playerbase - temporary bot for updating roster
+(people of rubika was blocking warbot for multiple massive queries from same IP)
+
+Create these characters as well as config files for them as follows:
+warbot_config.php
+twinkbot_config.php
+warleaders_config.php
+playerbase_config.php
+Characters must be in an org and have at least 3rd rank to see tower messages
+
+Note: character names *may* be hardcoded in some of the source files.
+Make sure you fix it before you try to run the full operation.
+
+Running:
+
+- Not guaranteed to run on any PHP above version 5.5
+- Requires screen application installed for full automation
+- Set up cron script to run Warbot.sh every 1 minute to ensure automatic restart
+
+** TO BE CONTINUED **
