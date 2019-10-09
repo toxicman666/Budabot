@@ -42,7 +42,7 @@ class Guild {
 
         // if no file was found or it is outdated try to update it from anarchyonline.com
         if (!$data_found) {
-			$orgxml = xml::getUrl("http://people.anarchy-online.com/org/stats/d/5/name/$guild_id/basicstats.xml", 30);
+			$orgxml = xml::getUrl("http://people.anarchy-online.com/org/stats/d/$rk_num/name/$guild_id/basicstats.xml", 30);
 			if (xml::spliceData($orgxml, '<id>', '</id>') == $guild_id) {
 				$data_found = true;
 				$data_save = true;

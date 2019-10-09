@@ -19,7 +19,7 @@ if (preg_match("/^confirm (.+)$/i", $message, $arr)) {
 	}
 	
 	// check bans
-	$sql = "SELECT name FROM warbot.banlist WHERE name = '$sender';";
+	$sql = "SELECT name FROM taratime.banlist_<myname> WHERE name = '$sender';";
 	$db->query($sql);
 	if ($db->numrows() >0) {
 		$chatBot->send("<orange>You are banned from this network.<end>");
@@ -49,7 +49,7 @@ if (preg_match("/^confirm (.+)$/i", $message, $arr)) {
 	}
 	
 	// find a full name in jos_users table and put id in $row->id
-	$sql = "SELECT ag.id, jo.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username WHERE jo.name='$sender'";
+	$sql = "SELECT ag.id, jo.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username WHERE jo.name='$sender';";
 	$db->query($sql);
 	if ($db->numrows() == 0) {
 		$chatBot->send("Name '$sender' is not in the DB yet. Does the name you registered with match your ingame name? Did you log into website after activation?", $sendto);
@@ -73,7 +73,7 @@ if (preg_match("/^confirm (.+)$/i", $message, $arr)) {
 						$db->exec("UPDATE taratime.tara_points SET forums=1 WHERE name='{$sender}';");
 						$db->exec("INSERT INTO omnihqdb.jos_agora_user_group (`user_id`, `group_id`, `role_id`) VALUES ($ag_id, $group_id_tara, $role_id);");
 						$chatBot->send("<green>You were added to Taratime section at www.omnihq.net and awarded 20 bonus points.<end>",$sender);
-					}						
+					}					
 					
 					if ($whois->level >=205) {
 						$sql = "INSERT INTO omnihqdb.jos_agora_user_group (user_id, group_id, role_id) VALUES ($ag_id, $group_id_205, $role_id);";
@@ -90,7 +90,7 @@ if (preg_match("/^confirm (.+)$/i", $message, $arr)) {
 						}
 					}
 					$org=str_replace("'","''",$whois->guild);
-					$sql = "UPDATE omnihqdb.jos_agora_users SET orgname='$org', orgrank='$whois->guild_rank' WHERE id='$ag_id';";
+					$sql = "UPDATE omnihqdb.jos_agora_users Set orgname='$org', orgrank='$whois->guild_rank' WHERE id='$ag_id';";
 					$db->exec($sql);
 					$chatBot->send("You have been confirmed.", $sendto);
 					return;
@@ -104,7 +104,7 @@ if (preg_match("/^confirm (.+)$/i", $message, $arr)) {
 					return;
 				}
 				else {
-					$chatBot->send("You are already confirmed. Use /tell Warbot !update", $sendto);
+					$chatBot->send("You are already confirmed. Use /tell <myname> !update", $sendto);
 					return;
 				}
 			}

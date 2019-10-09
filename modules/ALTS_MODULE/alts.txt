@@ -9,9 +9,9 @@
 <highlight>Adding alts to your list<end>
 <tab><symbol>alts add 'alt1' 'alt2' 'alt3'
 
+<red>Use for unconfirmed alt only<end>
+<highlight>Confirm and permanently store alt<end>
+<tab><symbol>register
+
 <highlight>Remove alts from your list<end>
 <tab><symbol>alts rem 'alt'
-
-<red>Moderators<end>
-<highlight>Replace main for name<end>
-<tab><symbol>replacemain 'name' 'newmain'

@@ -1,13 +1,6 @@
 <?php
 
 class Alts {
-	public static function is_wc_member($name) {
-		$db = DB::get_instance();
-		$main = Alts::get_main($name);
-		$db->query("SELECT m.* FROM members_warleaders m LEFT JOIN alts a ON m.name=a.alt WHERE `name`='$name' OR `main`='$main' OR `name`='$main';");
-		return ($db->numrows()>0);
-	}
-
 	public static function get_main($player) {
 		$db = DB::get_instance();
 		
@@ -26,6 +19,20 @@ class Alts {
 		$db = DB::get_instance();
 		
 		$sql = "SELECT `alt`, `main` FROM `alts` WHERE `main` LIKE '$main'";
+		$db->query($sql);
+		
+		$data = $db->fObject('all');
+		$array = array();
+		forEach ($data as $row) {
+			$array[] = $row->alt;
+		}
+		return $array;
+	}
+	
+	public static function get_tara_alts($main) {
+		$db = DB::get_instance();
+		
+		$sql = "SELECT `alt`, `main`, `approved` FROM `alts` WHERE `main` LIKE '$main' AND `approved`=1;";
 		$db->query($sql);
 		
 		$data = $db->fObject('all');
@@ -63,7 +70,7 @@ class Alts {
 			return null;
 		}
 
-		$list = "<header> :::::: Character List for $main :::::: <end>\n\n";
+		$list = "<header> :::: Character List for $main :::: <end>\n\n";
 		$list .= "{$main}";
 		$character = Player::get_by_name($main);
 		if ($character !== null) {
@@ -71,38 +78,49 @@ class Alts {
 		}
 		$online = Buddylist::is_online($main);
 		if ($online === null) {
-			$list .= "\n";
+			$list .= " \n";
 		} else if ($online == 1) {
 			$list .= " - <green>Online<end>\n";
 		} else {
 			$list .= " - <red>Offline<end>\n";
 		}
-		$list .= "\n:::::: Alt Character(s)\n";
+		$list .= "\n<header>:::: Alt Character(s) ::::<end>\n";
 		
-		$sql = "SELECT `alt`, `main`, p.* FROM `alts` a LEFT JOIN players p ON a.alt = p.name WHERE `main` LIKE '$main' ORDER BY level DESC, ai_level DESC, profession ASC, name ASC";
+		$playersdb = Player::get_players_db();
+		$sql = "SELECT `alt`, `main`, `approved`, p.* FROM `alts` a LEFT JOIN {$playersdb} p ON a.alt = p.name WHERE `main` LIKE '$main' ORDER BY level DESC, ai_level DESC, profession ASC, name ASC";
 		$db->query($sql);
 		$data = $db->fObject('all');
+		$unregistered=array();
 		forEach ($data as $row) {
-			$list .= "{$row->alt}";
-			if ($row->profession !== null) {
-				$list .= " (<highlight>{$row->level}<end>/<green>{$row->ai_level}<end> <highlight>{$row->profession}<end>)";
-			}
-			$online = Buddylist::is_online($row->alt);
-			if ($online === null) {
-				$list .= "\n";
-			} else if ($online == 1) {
-				$list .= " - <green>Online<end>\n";
+			if($row->approved==1){
+				$list .= "{$row->alt}";
+				if ($row->profession !== null) {
+					$list .= " (<highlight>{$row->level}<end>/<green>{$row->ai_level}<end> <highlight>{$row->profession}<end>)";
+				}
+				$online = Buddylist::is_online($row->alt);
+				if ($online === null) {
+					$list .= "\n";
+				} else if ($online == 1) {
+					$list .= " - <green>Online<end>\n";
+				} else {
+					$list .= " - <red>Offline<end>\n";
+				}
 			} else {
-				$list .= " - <red>Offline<end>\n";
+				$unregistered[]=$row->alt;
 			}
 		}
-		
+		if(count($unregistered)>0){
+			$list .= "\n<header>:::: Unregistered Alts ::::<end>\n";
+			foreach ($unregistered as $alt){
+				$list .= "$alt ";
+			}
+		}
 		if ($char!=$main || $show_main){
 			$msg = Text::make_link("Alts of $main", $list, 'blob');
 		} else {
 			$msg = Text::make_link("Alts", $list, 'blob');
 		}
-
+		
 		return $msg;
 	}
 }

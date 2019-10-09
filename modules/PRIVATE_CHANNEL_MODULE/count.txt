@@ -1,15 +1,13 @@
 <header> :::::: Count Command :::::: <end>
 
-<highlight>Show how many people are in the private channel list grouped by level<end>
+<highlight>Show people by level<end>
 <tab><symbol>count level
 <tab><symbol>count lvl
-
-<highlight>Show how many people are in the private channel list grouped by profession<end>
 <tab><symbol>count all
+
+<highlight>Show people by profession<end>
 <tab><symbol>count prof
+<tab><symbol>count all
 
-<highlight>Show how many people are in the private channel list grouped by organization<end>
+<highlight>Show people by organization<end>
 <tab><symbol>count org
-
-<highlight>Show how many people are in the private channel list of a particular profession<end>
-<tab><symbol>count 'prof'

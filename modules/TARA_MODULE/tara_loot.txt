@@ -1,0 +1,22 @@
+Tarasque General Loot|rbp|Robust Backpack
+Tarasque General Loot|gph|Gaily Painted Hood
+Tarasque General Loot|eot|The Edge of the Tarasque
+Tarasque General Loot|goc|Globe of Clarity
+Tarasque General Loot|gos|Globe of Sufferance
+Tarasque General Loot|auramag|Aura Magnifier
+Tarasque General Loot|cotwk|Cloak of the Wandering Knight
+Tarasque General Loot|hood|Smart Hood of the Wanderer
+Tarasque General Loot|ring|Signet Ring of the Green Knight
+Tarasque General Loot|sinew|Sinew of Tarasque
+Tarasque General Loot|heart|Heart of Tarasque
+Tarasque General Loot|hpo|Heavily Padded Overcoat
+Tarasque General Loot|poker|Stereotypical Dragon Tooth Poker
+Tarasque General Loot|gloves|Smelly Butcher Gloves
+Tarasque General Loot|bracer|Hollow Bone Bracer of Merlin Ambrosius
+Tarasque General Loot|staff|Heavy-Headed Hardwood Staff
+Dragon Armor Parts|chunk|Chunk of Living Dragon Flesh
+Dragon Armor Parts|patch|Patch of Living Dragon Skin
+Dragon Armor Parts|wing|Piece of Living Dragon Wing
+Dragon Armor Parts|marrow|Lump of Living Dragon Marrow
+Dragon Armor Parts|shard|Shard of Living Dragon Skull
+Administrator DeValos|nid|Nanobot Infusion Device

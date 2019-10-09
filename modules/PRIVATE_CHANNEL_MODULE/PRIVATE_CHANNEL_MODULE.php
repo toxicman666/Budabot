@@ -7,8 +7,6 @@
     Command::register($MODULE_NAME, "", "members.php", "members", "mod", "Member list");
 	Command::register($MODULE_NAME, "", "sm.php", "sm", "all", "Shows who is in the private channel");
 	CommandAlias::register($MODULE_NAME, "sm", "online");	
-	Command::register($MODULE_NAME, "", "wc_orgs.php", "orgs", "all", "Shows orgs registered");	
-
 	Command::register($MODULE_NAME, "", "autoinvite.php", "autoinvite", "all", "Allows member to set whether he should be auto-invited to private channel on logon or not");
     Command::register($MODULE_NAME, "guild msg", "join.php", "join", "all", "Join command for guests");
 	Command::register($MODULE_NAME, "priv msg", "leave.php", "leave", "all", "Enables Privatechat Kick");
@@ -29,7 +27,7 @@
 	Command::register($MODULE_NAME, "", "add.php", "adduser", "mod", "Adds a player to the members list");
 	Command::register($MODULE_NAME, "", "rem.php", "remuser", "mod", "Removes a player from the members list");
 	
-	Command::register($MODULE_NAME, "", "accept.php", "accept", "all", "Accept a private channel invitation from another player");
+//	Command::register($MODULE_NAME, "", "accept.php", "accept", "all", "Accept a private channel invitation from another player");
 	
 	Setting::add($MODULE_NAME, "guest_man_join", "Mode of manual private channel join", "edit", "options", "1", "Only for members of guestlist;Everyone", "1;0");
 	Setting::add($MODULE_NAME, "guest_color_channel", "Color for Private Channel relay(ChannelName)", "edit", "color", "<font color=#C3C3C3>");
@@ -55,13 +53,13 @@
 	Event::register($MODULE_NAME, "logOn", "logon_autoinvite.php", "none", "Auto-invite members on logon");
 	
 	// Show Character info on private channel join
+	Event::register($MODULE_NAME, "joinPriv", "send_online_list.php", "none", "Sends the online list to people as they join the private channel");
+	
 	Event::register($MODULE_NAME, "joinPriv", "notify_priv_join.php", "none", "Displays a message when a character joins the private channel");
 	Event::register($MODULE_NAME, "leavePriv", "notify_priv_leave.php", "none", "Displays a message when a character leaves the private channel");
 	
 	Event::register($MODULE_NAME, "joinPriv", "record_priv_join.php", "none", "Updates the database when a character joins the private channel");
 	Event::register($MODULE_NAME, "leavePriv", "record_priv_leave.php", "none", "Updates the database when a character leaves the private channel");
-	
-	Event::register($MODULE_NAME, "joinPriv", "send_online_list.php", "none", "Sends the online list to people as they join the private channel");
 
     Help::register($MODULE_NAME, "private_channel", "private_channel.txt", "guild", "Private channel commands");
 	Help::register($MODULE_NAME, "join_leave", "joinleave.txt", "all", "Joining and leaving the bot");

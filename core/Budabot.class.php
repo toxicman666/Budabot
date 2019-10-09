@@ -97,7 +97,7 @@ class Budabot extends AOChat {
 		// Set cron timers
 		$this->vars["2sec"] 			= time() + Setting::get("CronDelay");
 		$this->vars["1min"] 			= time() + Setting::get("CronDelay");
-		$this->vars["2min"] 			= time() + Setting::get("CronDelay");
+		$this->vars["2min"] 			= time() + Setting::get("CronDelay");	
 		$this->vars["5min"] 			= time() + Setting::get("CronDelay");		
 		$this->vars["10mins"] 			= time() + Setting::get("CronDelay");
 		$this->vars["15mins"] 			= time() + Setting::get("CronDelay");
@@ -643,7 +643,6 @@ class Budabot extends AOChat {
 					}
 				
 				} else {  // ext priv group message
-					
 					return;
 					/*
 					$type = "extPriv";
@@ -701,8 +700,8 @@ class Budabot extends AOChat {
                     return;
                 } else if ($channel == "Org Msg"){
                     $type = "orgmsg";
-				/*
-					forEach ($this->events[$type] as $filename) {
+
+				/*	forEach ($this->events[$type] as $filename) {
 						$msg = "";
 						include $filename;
 						if ($stop_execution) {
@@ -832,10 +831,9 @@ class Budabot extends AOChat {
 		$db = DB::get_instance();
 		global $chatBot;
 		
-		$time = time();
-		if ($chatBot->vars["2sec"] < $time) {
+		if ($chatBot->vars["2sec"] < time()) {
 			Logger::log('DEBUG', 'Cron', "2secs");
-			$chatBot->vars["2sec"] 	= $time + 1;
+			$chatBot->vars["2sec"] 	= time() + 1;
 			forEach ($chatBot->spam as $key => $value){
 				if ($value > 0) {
 					$chatBot->spam[$key] = $value - 10;
@@ -848,7 +846,7 @@ class Budabot extends AOChat {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["1min"] < $time) {
+		if ($chatBot->vars["1min"] < time()) {
 			Logger::log('DEBUG', 'Cron', "1min");
 			forEach ($chatBot->largespam as $key => $value){
 				if ($value > 0) {
@@ -858,12 +856,12 @@ class Budabot extends AOChat {
 				}
 			}
 			
-			$chatBot->vars["1min"] = $time + 59;
+			$chatBot->vars["1min"] = time() + 59;
 			forEach ($chatBot->events['1min'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["2min"] < $time) {
+		if ($chatBot->vars["2min"] < time()) {
 			Logger::log('DEBUG', 'Cron', "2min");
 			forEach ($chatBot->largespam as $key => $value){
 				if ($value > 0) {
@@ -873,12 +871,12 @@ class Budabot extends AOChat {
 				}
 			}
 			
-			$chatBot->vars["2min"] = $time + 119;
+			$chatBot->vars["2min"] = time() + 119;
 			forEach ($chatBot->events['2min'] as $filename) {
 				require $filename;
 			}
 		}	
-		if ($chatBot->vars["5min"] < $time) {
+		if ($chatBot->vars["5min"] < time()) {
 			Logger::log('DEBUG', 'Cron', "5min");
 			forEach ($chatBot->largespam as $key => $value){
 				if ($value > 0) {
@@ -888,42 +886,42 @@ class Budabot extends AOChat {
 				}
 			}
 			
-			$chatBot->vars["5min"] = $time + 299;
+			$chatBot->vars["5min"] = time() + 299;
 			forEach ($chatBot->events['5min'] as $filename) {
 				require $filename;
 			}
 		}		
-		if ($chatBot->vars["10mins"] < $time) {
+		if ($chatBot->vars["10mins"] < time()) {
 			Logger::log('DEBUG', 'Cron', "10mins");
-			$chatBot->vars["10mins"] 	= $time + (60 * 10);
+			$chatBot->vars["10mins"] 	= time() + (60 * 10);
 			forEach ($chatBot->events['10mins'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["15mins"] < $time) {
+		if ($chatBot->vars["15mins"] < time()) {
 			Logger::log('DEBUG', 'Cron', "15mins");
-			$chatBot->vars["15mins"] 	= $time + (60 * 15);
+			$chatBot->vars["15mins"] 	= time() + (60 * 15);
 			forEach ($chatBot->events['15mins'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["30mins"] < $time) {
+		if ($chatBot->vars["30mins"] < time()) {
 			Logger::log('DEBUG', 'Cron', "30mins");
-			$chatBot->vars["30mins"] 	= $time + (60 * 30);
+			$chatBot->vars["30mins"] 	= time() + (60 * 30);
 			forEach ($chatBot->events['30mins'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["1hour"] < $time) {
+		if ($chatBot->vars["1hour"] < time()) {
 			Logger::log('DEBUG', 'Cron', "1hour");
-			$chatBot->vars["1hour"] 	= $time + (60 * 60);
+			$chatBot->vars["1hour"] 	= time() + (60 * 60);
 			forEach ($chatBot->events['1hour'] as $filename) {
 				require $filename;
 			}
 		}
-		if ($chatBot->vars["24hours"] < $time) {
+		if ($chatBot->vars["24hours"] < time()) {
 			Logger::log('DEBUG', 'Cron', "24hours");
-			$chatBot->vars["24hours"] 	= $time + ((60 * 60) * 24);
+			$chatBot->vars["24hours"] 	= time() + ((60 * 60) * 24);
 			forEach ($chatBot->events['24hrs'] as $filename) {
 				require $filename;
 			}

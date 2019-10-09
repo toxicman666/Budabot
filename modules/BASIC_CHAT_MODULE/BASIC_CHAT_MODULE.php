@@ -3,25 +3,21 @@
 	
 	$MODULE_NAME = "BASIC_CHAT_MODULE";
 
-	// Check macros
-	Command::register($MODULE_NAME, "", "check.php", "check", "rl", "Checks who of the raidgroup is in the area");
-	
+	// Check macros	// oved to tara module
+//	Command::register($MODULE_NAME, "", "check.php", "check", "rl", "Checks who of the raidgroup is in the area");
+
 	// Topic set/show
 	Event::register($MODULE_NAME, "joinPriv", "topic_logon.php", "topic", "Shows Topic when someone joins PrivChat");
 	Event::register($MODULE_NAME, "logOn", "topic_logon.php", "topic", "Shows Topic on logon of members");
-	
 	Command::register($MODULE_NAME, "", "topic.php", "topic", "all", "Shows Topic");
 	Subcommand::register($MODULE_NAME, "", "topic_change.php", "topic (.+)", "leader", "topic", "Changes Topic");
 	Setting::add($MODULE_NAME, "topic", "Topic for Priv Channel", "noedit", "text", '');
 	Setting::add($MODULE_NAME, "topic_setby", "Character who set the topic", "noedit", "text", '');
 	Setting::add($MODULE_NAME, "topic_time", "Time the topic was set", "noedit", "text", '');
-	
-	Command::register($MODULE_NAME, "", "basetopic.php", "basetopic", "leader", "Set base topic");	
-	Command::register($MODULE_NAME, "", "editbasetopic.php", "editbasetopic", "mod", "Modify base topic");
-	Command::register($MODULE_NAME, "", "editbasetopic.php", "editbaserally", "mod", "Modify base rally");
+//	Command::register($MODULE_NAME, "", "basetopic.php", "basetopic", "all", "Set base topic");	
 	Command::register($MODULE_NAME, "", "rally.php", "rally", "all", "Shows Rally");	
 	Subcommand::register($MODULE_NAME, "", "rally_change.php", "rally (.+)", "leader", "rally", "Changes Rally");	
-	Setting::add($MODULE_NAME, "rally", "Topic for Priv Channel", "noedit", "text", '');
+	Setting::add($MODULE_NAME, "rally", "Rally coordinates", "noedit", "text", '');	
 	
 	// Leader
 	Command::register($MODULE_NAME, "priv", "leader.php", "leader", "all", "Sets the Leader of the raid");
@@ -67,12 +63,15 @@
 	Help::register($MODULE_NAME, "orders", "orders.txt", "all", "Orders help");
 	
 	// Helpfiles
+	Help::register($MODULE_NAME, "stats", "stats.txt", "all", "Statistics");
+	Help::register($MODULE_NAME, "top", "stats.txt", "all", "Statistics");
+	Help::register($MODULE_NAME, "teamassist", "assist.txt", "all", "Creating an Assist Macro");
 	Help::register($MODULE_NAME, "assist", "assist.txt", "all", "Creating an Assist Macro");
 	Help::register($MODULE_NAME, "check", "check.txt", "all", "See of the ppls are in the area");
 	Help::register($MODULE_NAME, "heal", "healassist.txt", "all", "Creating an Healassist Macro");
 	Help::register($MODULE_NAME, "leader", "leader.txt", "all", "Set a Leader of a Raid/Echo on/off");
 	Help::register($MODULE_NAME, "tell", "tell.txt", "leader", "How to use tell");
-	Help::register($MODULE_NAME, "topic", "topic.txt", "all", "Set the Topic of the raid");
+	Help::register($MODULE_NAME, "topic", "topic.txt", "raidleader", "Set the Topic of the raid");
 	Help::register($MODULE_NAME, "cmd", "cmd.txt", "leader", "How to use cmd");
 	Help::register($MODULE_NAME, "rally", "rally.txt", "all", "How to use Rally");	
 ?>

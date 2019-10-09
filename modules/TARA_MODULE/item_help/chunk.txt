@@ -1,0 +1,5 @@
+<font color=CCInfoHeader>This is a tradeskill/upgrade item</font>
+
+This item can be tradeskilled to make
+<img src=rdb://37545>
+<a href=itemref://158791/158791/1>Living Dragonflesh Body Armor</a>

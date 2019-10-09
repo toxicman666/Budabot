@@ -1,0 +1,5 @@
+<font color=CCInfoHeader>This is a tradeskill/upgrade item</font>
+
+This item can be tradeskilled to make
+<img src=rdb://151919>
+<a href=itemref://158799/158799/1>Living Dragonskull Circlet </a>

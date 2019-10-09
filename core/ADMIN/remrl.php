@@ -29,7 +29,7 @@
    ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
    */
 
-if (preg_match("/^remrl (.+)$/i", $message, $arr)) {
+if (preg_match("/^remrl ([a-z0-9-]+)$/i", $message, $arr)) {
 	$who = ucfirst(strtolower($arr[1]));
 	
 	if ($chatBot->admins[$who]["level"] != 2) {

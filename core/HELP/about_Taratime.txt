@@ -1,0 +1,6 @@
+<header> :::::: Taratime :::::: <end>
+
+<highlight>Omni-tek Tarasque bot.<end>
+<highlight>Forums:<end> <a href='chatcmd:///start http://www.omnihq.net'>http://www.omnihq.net</a>
+
+<orange>- Restricted to Omni/Neut 150+<end>

@@ -1,0 +1,20 @@
+<header>:::: Raid manage help ::::<end>
+
+<highlight>Start a raid<end>
+<tab><symbol>raidstart 'type'
+<tab><green><symbol>raidstart tara
+
+<highlight>Update raid<end>
+<tab><symbol>raidupdate 'type'
+
+<highlight>Award points<end>
+<tab><symbol>raidpoints
+
+<highlight>Display loot and auction<end>
+<tab><symbol>raidloot
+
+<highlight>End the raid<end>
+<tab><symbol>raidend
+
+<highlight>Show raid types<end>
+<tab><symbol>raids

@@ -1,0 +1,8 @@
+<header>:::: Spawntime help ::::<end>
+
+<highlight>Display expected spawntime<end>
+<tab><symbol>spawntime
+
+<highlight>Set spawntime (only listed raidleaders)<end>
+<tab><symbol>setspawntime 'timer'
+<green><tab><symbol>setspawntime 8h45m<end>

@@ -1,42 +1,9 @@
 <?php
-   /*
-   ** Author: Sebuda (RK2)
-   ** Description: Adds a Player to the banlist
-   ** Version: 0.1
-   **
-   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
-   **
-   ** Date(created): 01.10.2005
-   ** Date(last modified): 21.11.2006
-   **
-   ** Copyright (C) 2005, 2006 J Gracik
-   **
-   ** Licence Infos:
-   ** This file is part of Budabot.
-   **
-   ** Budabot is free software; you can redistribute it and/or modify
-   ** it under the terms of the GNU General Public License as published by
-   ** the Free Software Foundation; either version 2 of the License, or
-   ** (at your option) any later version.
-   **
-   ** Budabot is distributed in the hope that it will be useful,
-   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
-   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   ** GNU General Public License for more details.
-   **
-   ** You should have received a copy of the GNU General Public License
-   ** along with Budabot; if not, write to the Free Software
-   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
-if ($chatBot->vars["name"]=="Warleaders" && (!isset($chatBot->admins[$sender])||(int)$chatBot->admins[$sender]["level"]<4)){
-	$chatBot->send("<orange>Cannot ban from this bot. Use !remuser<end>", $sendto);
-	return;
-}
 
 if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 	$who = ucfirst(strtolower($arr[2]));
 	if ($chatBot->get_uid($who) == NULL) {
-		$chatBot->send("<orange>Sorry the player you wish to ban does not exist.<end>", $sendto);
+		$chatBot->send("<orange>Sorry the player you wish to ban does not exist.", $sendto);
 		return;
 	}
 	
@@ -56,11 +23,15 @@ if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 				$chatBot->send("<orange>Player $who ($alt) has too high rank for you to ban.<end>", $sendto);
 				return;			
 			}
-	
 	$banned = Ban::is_banned($who);
-	if ($banned && $banned!==1) {
-	  	$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
-		return;
+	if ($banned) {
+		if($banned!==1){
+			$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
+			return;
+		} else {
+			$chatBot->send("<orange>Player $who is already banned by Warbot.<end>", $sendto);
+			return;
+		}
 	}	
 	Ban::add($who, $sender, 1800, "Quick 30 min ban");
 	$chatBot->privategroup_kick($who);
@@ -92,9 +63,14 @@ if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 			}
 		
 	$banned = Ban::is_banned($who);
-	if ($banned && $banned!==1) {
-	  	$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
-		return;
+	if ($banned) {
+		if($banned!==1){
+			$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
+			return;
+		} else {
+			$chatBot->send("<orange>Player $who is already banned by Warbot.<end>", $sendto);
+			return;
+		}
 	}
 	
 	if (($arr[3] == "w" || $arr[3] == "week" || $arr[3] == "weeks") && $arr[2] > 0) {
@@ -134,9 +110,14 @@ if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 			}
 	
 	$banned = Ban::is_banned($who);
-	if ($banned && $banned!==1) {
-	  	$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
-		return;
+	if ($banned) {
+		if($banned!==1){
+			$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
+			return;
+		} else {
+			$chatBot->send("<orange>Player $who is already banned by Warbot.<end>", $sendto);
+			return;
+		}
 	}
 	
 	if (($arr[3] == "w" || $arr[3] == "week" || $arr[3] == "weeks") && $arr[2] > 0) {
@@ -178,9 +159,14 @@ if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 			}
 		
 	$banned = Ban::is_banned($who);
-	if ($banned && $banned!==1) {
-	  	$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
-		return;
+	if ($banned) {
+		if($banned!==1){
+			$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
+			return;
+		} else {
+			$chatBot->send("<orange>Player $who is already banned by Warbot.<end>", $sendto);
+			return;
+		}
 	}
 	
 	Ban::add($who, $sender, null, $reason);
@@ -213,9 +199,14 @@ if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 			}
 		
 	$banned = Ban::is_banned($who);
-	if ($banned && $banned!==1) {
-	  	$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
-		return;
+	if ($banned) {
+		if($banned!==1){
+			$chatBot->send("<orange>Player $who is already banned.<end>", $sendto);
+			return;
+		} else {
+			$chatBot->send("<orange>Player $who is already banned by Warbot.<end>", $sendto);
+			return;
+		}
 	}
 	
 	Ban::add($who, $sender, null, '');
@@ -225,9 +216,15 @@ if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 } else if (preg_match("/^banorg (.+)$/i", $message, $arr)) {
 	$who = $arr[1];
 	
-	if (Ban::is_banned($who,1)) {
-	  	$chatBot->send("<orange>The organization '<highlight>$who<end>' is already banned.<end>", $sendto);
-		return;
+	$banned = Ban::is_banned($who,1);
+	if ($banned) {
+		if ($banned!==1){
+			$chatBot->send("<orange>The organization '<highlight>$who<end>' is already banned.<end>", $sendto);
+			return;
+		} else {
+			$chatBot->send("<orange>The organization '<highlight>$who<end>' is already banned by Warbot.<end>", $sendto);
+			return;
+		}
 	}
 
 	Ban::add($who, $sender, null, 'Org ban', 1);
@@ -235,9 +232,9 @@ if (preg_match("/^(quickban|fastban) ([a-z0-9-]+)$/i", $message, $arr)) {
 	$chatBot->send("You have banned the org '<highlight>$who<end>' from this bot.", $sendto);
 } else if (preg_match("/^banhistory$/i", $message) || preg_match("/^banhistory full$/i", $message)) {
 	if(preg_match("/^banhistory full$/i", $message))
-		$db->query("SELECT * FROM banhistory ORDER BY id DESC;");
+		$db->query("SELECT * FROM banhistory_<myname> ORDER BY id DESC;");
 	else
-		$db->query("SELECT * FROM banhistory ORDER BY id DESC LIMIT 30;");
+		$db->query("SELECT * FROM banhistory_<myname> ORDER BY id DESC LIMIT 30;");
 	
 	$blob = "<header>:::: Ban History ::::<end>\n\n";
 	while($row = $db->fObject()){

@@ -1,14 +1,31 @@
 <?php
    
-if (Setting::get('topic') == '') {
+if (Setting::get('topic') == '' && Setting::get('raid_topic_long') == '') {
 	return;
 }
 
 if ($type == 'joinPriv' || ($type == 'logOn' && isset($chatBot->guildmembers[$sender]) && $chatBot->is_ready())) {
-	$date_string = Util::unixtime_to_readable(time() - $chatBot->settings["topic_time"], false);
+	$raid_topic = Setting::get('raid_topic_long');
+	$closed = "";
+	if($raid_topic!="") {
+		$topic = "<yellow>" . $raid_topic . "<end>";
+		$date_string = Util::unixtime_to_readable(time() - Setting::get('raid_topic_time'), false);	
+		$by = Setting::get("raid_by");
+		$status=Setting::get("raid_status");
+		if ($status==2) $closed = "<red> [Closed]<end>";
+	} else {
+		$topic=Setting::get('topic');
+		$date_string = Util::unixtime_to_readable(time() - Setting::get('topic_time'), false);
+		$by = Setting::get("topic_setby");
+	}
 	if(!isset($chatBot->data["leader"])||$chatBot->data["leader"]=="") $leader = "none";
-	else $leader = "<yellow>" . $chatBot->data["leader"] . "<end>";	
-	$msg = "<highlight>Topic:<end> {$chatBot->settings["topic"]} [set by <highlight>{$chatBot->settings["topic_setby"]}<end>] [Leader - {$leader}] [<highlight>{$date_string} ago<end>]";
+	else $leader = "<yellow>" . $chatBot->data["leader"] . "<end>";
+	
+	if ($topic == '') {
+		$topic = 'No topic set';
+	}
+
+	$msg = "<highlight>Topic:<end> {$topic}{$closed} [set by <highlight>{$by}<end>] [Leader - {$leader}] [<highlight>{$date_string} ago<end>]";
     $chatBot->send($msg, $sender);
 	
 	if (!isset($chatBot->data["BASIC_CHAT_MODULE"]["orders"]))

@@ -38,7 +38,8 @@ if (preg_match("/^remassist ([a-z0-9-]+)$/i", $message, $arr)) {
 	}
 } else if (preg_match("/^remassist$/i", $message)) {
 	Setting::save('assist', '');
-	$chatBot->send("Assist was cleared.",$sendto);
+	if ($sendto!='prv') $chatBot->send("Assist was cleared.",$sender);
+	$chatBot->send("Assist was cleared by <highlight>{$sender}<end>.",'priv');		
 } else {
 	$syntax_error = true;
 }

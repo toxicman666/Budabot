@@ -11,10 +11,10 @@
 	Command::activate("msg", "$MODULE_NAME/unban.php", "unban", "mod");
 	Command::activate("msg", "$MODULE_NAME/unban.php", "unbanorg", "mod");	
 	Command::activate("msg", "$MODULE_NAME/banlist.php", "banlist", "rl");
-	Command::activate("msg", "$MODULE_NAME/ban_player.php", "banhistory", "rl");	
+	Command::activate("msg", "$MODULE_NAME/ban_player.php", "banhistory", "rl");
+//	Command::activate("priv", "$MODULE_NAME/ban_player.php", "banhistory", "rl");
 	Command::activate("priv", "$MODULE_NAME/ban_player.php", "fastban", "rl");
-	Command::activate("priv", "$MODULE_NAME/ban_player.php", "quickban", "rl");
-//	Command::activate("priv", "$MODULE_NAME/ban_player.php", "banhistory", "rl");	
+	Command::activate("priv", "$MODULE_NAME/ban_player.php", "quickban", "rl");	
 //	Command::activate("priv", "$MODULE_NAME/ban_player.php", "ban", "mod");
 //	Command::activate("priv", "$MODULE_NAME/unban.php", "unban", "mod");
 //	Command::activate("priv", "$MODULE_NAME/banlist.php", "banlist");

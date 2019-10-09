@@ -1,8 +1,9 @@
 <?php
 
+
 if (preg_match("/assist$/i", $message)) {
 	$ass=Setting::get('assist');
-	$teamass=Setting::get('teamassist');	
+	$teamass=Setting::get('teamassist');
   	if ($ass!="") {
 		$arr=explode(" ", $ass);
 		if(count($arr)==1){

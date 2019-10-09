@@ -34,17 +34,7 @@ if ($type == "joinPriv") {
 	}
 	$chatBot->send($msg, "priv", true);
 	
-	if ($chatBot->vars["name"] == "Twinkbot") {
-		$main = Alts::get_main($sender);
-		if ($main == NULL) $main = $sender;
-		$sql = "SELECT name FROM twinks WHERE name='{$main}';";
-		$db->query($sql);
-		if($db->numrows() == 0){
-			$sql = "INSERT INTO twinks (name) VALUES ('{$main}');";
-			$db->exec($sql);
-			$chatBot->send("You have been added to twinks list.",$sender);
-		}	
-	}
+
 }
 
 ?>

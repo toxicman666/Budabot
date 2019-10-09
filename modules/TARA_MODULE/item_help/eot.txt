@@ -1,0 +1,5 @@
+<font color=CCInfoHeader>This is a tradeskill/upgrade item</font>
+
+This item can be upgraded with a Nanobot Infusion Device to make
+<img src=rdb://158280>
+<a href=itemref://275422/275422/1>Honed Edge of Tarasque</a>

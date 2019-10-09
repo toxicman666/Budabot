@@ -4,18 +4,14 @@ class Player {
 	public static function sync_attempt($sender=null){
 		$db = DB::get_instance();
 		global $chatBot;
+		$playersdb = Player::get_players_db();
 		if($sender===null){
-			$sql = "SELECT * FROM players WHERE last_update<" . (time() - 604800) . " OR charid=0 ORDER BY last_update ASC LIMIT 1;";
+			$sql = "SELECT name FROM {$playersdb} WHERE last_update<" . (time() - 604800) . " ORDER BY last_update ASC LIMIT 1;";
 			$db->query($sql);
 			if($db->numrows()===0) return false;
-			$char = $db->fObject();
-			$name = $char->name;
+			$name = $db->fObject()->name;
 		} else {
-			$sql = "SELECT * FROM players WHERE name LIKE '{$sender}';";
-			$db->query($sql);
-			if($db->numrows()===0) return false;
-			$char = $db->fObject();
-			$name = $char->name;
+			$name = $sender;
 		}
 		
 		$charid = $chatBot->get_uid($name);
@@ -25,16 +21,21 @@ class Player {
 				$player->charid = $charid;
 				Player::update($player);
 			} else {
-				$db->exec("UPDATE players SET last_update=" . (time() - 604800) . " WHERE name LIKE '{$name}';");
+				$db->query("UPDATE {$playersdb} SET last_update=" . (time() - 604800) . " WHERE name LIKE {$name};");
 				return false;
 			}
 		} else {
-			$db->exec("DELETE FROM players WHERE name LIKE '{$name}';");
-			$db->exec("INSERT INTO charid_history (`charid`,`name`,`level`,`profession`,`faction`,`time`) VALUES ('{$char->charid}','{$char->name}','{$char->level}','{$char->profession}','{$char->faction}'," . time() . ";");
+			$db->exec("DELETE FROM {$playersdb} WHERE name LIKE '{$name}';");
 		}
 		return true;
 	}
-
+	
+	public static function get_players_db(){
+		$playersdb = Setting::get("use_players_db");
+		$playersdb = ($playersdb=="self" || empty($playersdb) ? $playersdb = "players" : $playersdb.=".players");
+		return $playersdb;
+	}	// this is used in: Alts, ban, check, SM, send_online (sm), system_cmd, etc
+	
 	public static function get_by_name($name, $forceUpdate = false) {
 		$db = DB::get_instance();
 		global $chatBot;
@@ -45,13 +46,9 @@ class Player {
 		if ($charid == null) {
 			return null;
 		}
-	
-		if(Setting::get('hide_omni_scout')==0){
-			$sql = "SELECT p.*,op.charid AS oldcharid FROM players p LEFT JOIN warbot_old.players op ON p.name=op.name WHERE p.name LIKE '$name'";
-		} else {
-			$sql = "SELECT * FROM players WHERE name LIKE '$name'";
-		}
 		
+		$playersdb = Player::get_players_db();
+		$sql = "SELECT * FROM {$playersdb} WHERE name LIKE '$name'";
 		$db->query($sql);
 		$found = $db->numrows();
 		$player = $db->fObject();
@@ -84,9 +81,9 @@ class Player {
 	}
 	
 	public static function lookup($name, $dimension) {
-		$xml = Player::lookup_url("http://people.anarchy-online.com/character/bio/d/5/name/$name/bio.xml");
+		$xml = Player::lookup_url("http://people.anarchy-online.com/character/bio/d/$dimension/name/$name/bio.xml");
+		if ($xml !== null){
 	//	if ($xml->name == $name) {
-		if ($xml!==null){
 			$xml->source = 'people.anarchy-online.com';
 			$xml->dimension = $dimension;
 
@@ -103,10 +100,9 @@ class Player {
 			return $xml;
 		}
 		*/
-		
 		return null;
 	}
-
+	
 	public static function lookup_auno($name, $dimension) {
 
 		$xml = Player::lookup_url("http://auno.org/ao/char.php?output=xml&dimension=$dimension&name=$name");
@@ -148,39 +144,12 @@ class Player {
 	public static function update(&$char,$last_update=1) {
 		$db = DB::get_instance();
 		if($last_update===1) $last_update = time();
-	//	$db->query("SELECT charid, name FROM players WHERE `name` = '{$char->name}'");
-	//	$old = $db->fObject();
-		
-	/*	
-		$sql = "UPDATE players SET
-				charid='{$char->charid}',
-				firstname='" . str_replace("'", "''", $char->firstname) . "',
-				name='{$char->name}',
-				lastname='" . str_replace("'", "''", $char->lastname) . "',
-				level='{$char->level}',
-				breed='{$char->breed}',
-				gender='{$char->gender}',
-				faction='{$char->faction}',
-				profession='{$char->profession}',
-				prof_title='{$char->prof_title}',
-				ai_rank='{$char->ai_rank}',
-				ai_level='{$char->ai_level}',
-				guild_id='{$char->guild_id}',
-				guild='" . str_replace("'", "''", $char->guild) . "',
-				guild_rank='{$char->guild_rank}',
-				guild_rank_id='{$char->guild_rank_id}',
-				dimension='{$char->dimension}',
-				source='{$char->source}',
-				last_update='{$last_update}'
-				WHERE name='{$char->name}';
-			";
-	*/	
-	
-		$sql = "DELETE FROM players WHERE `name` = '{$char->name}'";
+		$playersdb = Player::get_players_db();
+		$sql = "DELETE FROM {$playersdb} WHERE `name` = '{$char->name}'";
 		$db->exec($sql);
 
 		$sql = "
-			INSERT INTO players (
+			INSERT INTO warbot.players (
 				`charid`,
 				`firstname`,
 				`name`,
@@ -221,7 +190,6 @@ class Player {
 				'{$char->source}',
 				'{$last_update}'
 			)";
-
 		
 		$db->exec($sql);
 	}

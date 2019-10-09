@@ -1,6 +1,16 @@
 <?php
 	$MODULE_NAME = "BIOR_GUARDIAN_MODULE";
 
+  	Command::register($MODULE_NAME, "", "rush.php", "rush", "leader", "Order to rush");	
+  	Command::register($MODULE_NAME, "", "box.php", "box", "leader", "Order to rush box");
+  	Command::register($MODULE_NAME, "", "inc.php", "inc", "leader", "Incoming notifier");	
+  	Command::register($MODULE_NAME, "", "troom.php", "troom", "leader", "Order to rush troom");	
+	Command::register($MODULE_NAME, "", "troom.php", "2troom", "leader", "Order to rush troom");
+	Command::register($MODULE_NAME, "", "troom.php", "100", "leader", "Order to 100% gas");	
+	CommandAlias::register($MODULE_NAME, "2troom", "troom2");
+  	Command::register($MODULE_NAME, "", "platform.php", "platform", "leader", "Order to rush platform");	
+	CommandAlias::register($MODULE_NAME, "platform", "plat");
+	
 	//Bio Regrowth module
 	Event::register($MODULE_NAME, "leavePriv", "bior_left_chat.php", "bior", "Remove player who leaves chat from bior list if he was on it");
 	Event::register($MODULE_NAME, "joinPriv", "bior_joined_chat.php", "bior", "Add player to bior list when he joins chat if he should be on it (Keep,Adv,Enf,Eng)");
@@ -26,6 +36,11 @@
 	Setting::add($MODULE_NAME, "guard_max", "Max Persons that are shown on Guard list", "edit", "number", "10", "10;15;20;25;30", '', "mod");
 
 	//Helpfiles
+	Help::register($MODULE_NAME, "box", "rush.txt", "all", "Rush commands");
+	Help::register($MODULE_NAME, "troom", "rush.txt", "all", "Rush commands");
+	Help::register($MODULE_NAME, "2troom", "rush.txt", "all", "Rush commands");
+	Help::register($MODULE_NAME, "100", "rush.txt", "all", "Rush commands");
+	Help::register($MODULE_NAME, "rush", "rush.txt", "all", "Rush commands");
 	Help::register($MODULE_NAME, "guard", "guard.txt", "all", "Guardian Macro and List");
 	Help::register($MODULE_NAME, "guard_max", "guard_max.txt", "mod", "Set the max numbers of players on the Guardian List");
 ?>

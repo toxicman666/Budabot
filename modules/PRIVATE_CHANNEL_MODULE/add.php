@@ -1,7 +1,35 @@
 <?php
+   /*
+   ** Author: Derroylo (RK2)
+   ** Description: Kicks a player from the privatechannel
+   ** Version: 1.0
+   **
+   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
+   **
+   ** Date(created): 17.02.2006
+   ** Date(last modified): 18.02.2006
+   ** 
+   ** Copyright (C) 2006 Carsten Lohmann
+   **
+   ** Licence Infos: 
+   ** This file is part of Budabot.
+   **
+   ** Budabot is free software; you can redistribute it and/or modify
+   ** it under the terms of the GNU General Public License as published by
+   ** the Free Software Foundation; either version 2 of the License, or
+   ** (at your option) any later version.
+   **
+   ** Budabot is distributed in the hope that it will be useful,
+   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
+   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   ** GNU General Public License for more details.
+   **
+   ** You should have received a copy of the GNU General Public License
+   ** along with Budabot; if not, write to the Free Software
+   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+   */
 
-
-if (preg_match("/^adduser ([a-z0-9-]+)$/i", $message, $arr)) {
+if (preg_match("/^adduser (.+)$/i", $message, $arr)) {
 	$uid = $chatBot->get_uid($arr[1]);
 	$name = ucfirst(strtolower($arr[1]));
 	if (!$uid) {
@@ -17,32 +45,8 @@ if (preg_match("/^adduser ([a-z0-9-]+)$/i", $message, $arr)) {
 				$chatBot->send($msg, $sendto);
 				return;
 			} else {
-				$forum="";
-				if(Setting::get("alts_wc_members")>0){
-					$main = Alts::get_main($name);
-					if (Alts::is_wc_member($name)) {
-						$chatBot->send("One of <highlight>$name<end>'s alts is already a member of this bot.",$sender);
-						return;
-					}
-					$alts = Alts::get_alts($main);
-					$alts[]=$main;
-					$group_id_wc = 3; // warleaders forums group
-					$group_id_confirmed = 4;  // confirmed users
-					$role_id = 2;
-					foreach($alts as $alt){
-						$sql = "SELECT ag.id FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username LEFT JOIN omnihqdb.jos_agora_user_group gr ON gr.user_id=ag.id WHERE jo.name='$alt' AND gr.group_id = $group_id_confirmed;";
-						$db->query($sql);
-						if ($db->numrows() !== 0) {
-							$row = $db->fObject();
-							$ag_id = $row->id;
-							$db->exec("INSERT INTO omnihqdb.jos_agora_user_group (user_id, group_id, role_id) VALUES ($ag_id, $group_id_wc, $role_id);");
-							$forum=" <highlight>$alt<end> was added to WC forums.";
-						}					
-					}
-					$name = $main;
-				}
 				$db->exec("INSERT INTO members_<myname> (`name`, `autoinv`) VALUES ('$name', 1)");
-				$msg = "<highlight>$name<end> has been added as a member of this bot.$forum";
+				$msg = "<highlight>$name<end> has been added as a member of this bot.";
 			}
 		}
 

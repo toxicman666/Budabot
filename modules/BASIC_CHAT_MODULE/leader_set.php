@@ -1,13 +1,13 @@
 <?php
 
 
-if ($chatBot->settings["leaderecho"] == 1) {
+//if ($chatBot->settings["leaderecho"] == 1) {
 	$status = "<green>Enabled<end>";
 	$cmd = "off";
-} else {
-	$status = "<red>Disabled<end>";
-	$cmd = "on";
-}
+//} else {
+//	$status = "<red>Disabled<end>";
+//	$cmd = "on";
+//}
 
 if (preg_match("/^leader ([a-z0-9-]+)$/i", $message, $arr)) {
     $uid = $chatBot->get_uid($arr[1]);
@@ -18,7 +18,7 @@ if (preg_match("/^leader ([a-z0-9-]+)$/i", $message, $arr)) {
 		$msg = "Player <highlight>{$name}<end> isn't in this channel.";
 	} else {
 		$chatBot->data["leader"] = $name;
-	  	$msg = "{$name} is now Leader. Leader echo is currently {$status}. You can change it with <symbol>leaderecho {$cmd}";
+	  	$msg = "{$name} is now Leader. Leader echo is currently {$status}. You can change it with <symbol>echo {$cmd}";
 	}
   	$chatBot->send($msg, 'priv');
 } else {

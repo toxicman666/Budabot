@@ -66,10 +66,10 @@
 	// Help files
 	Help::register($MODULE_NAME, "add", "add_rem.txt", "all", "Adding to a lootitem");
 	Help::register($MODULE_NAME, "rem", "add_rem.txt", "all", "Removing your bid on a lootitem");
-	Help::register($MODULE_NAME, "loot", "flatroll.txt", "all", "Adding an item to be flatrolled");
-	Help::register($MODULE_NAME, "remloot", "flatroll.txt", "all", "Removing an item from a flatroll list");
-	Help::register($MODULE_NAME, "rollloot", "flatroll.txt", "all", "Flatroll an item");
-	Help::register($MODULE_NAME, "multiloot", "flatroll.txt", "all", "Adding multiple of an item to be rolled");
+	Help::register($MODULE_NAME, "loot", "flatroll.txt", "leader", "Adding an item to be flatrolled");
+	Help::register($MODULE_NAME, "remloot", "flatroll.txt", "leader", "Removing an item from a flatroll list");
+	Help::register($MODULE_NAME, "rollloot", "flatroll.txt", "leader", "Flatroll an item");
+	Help::register($MODULE_NAME, "multiloot", "flatroll.txt", "leader", "Adding multiple of an item to be rolled");
 	
 /*	Help::register($MODULE_NAME, "apfloot", "apfloot.txt", "guild", "Show the Loots of the APF");
 	Help::register($MODULE_NAME, "dbloot", "dbloot.txt", "all", "Loot manager for DB1/DB2 Instance");

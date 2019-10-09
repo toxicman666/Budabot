@@ -1,0 +1,7 @@
+<header>::::: Spam Commands :::::<end>
+
+<highlight>Notify omni network (Linknet)<end>
+<tab><symbol>spam 'message'
+<tab><symbol>linknet 'message'
+
+<tab><green><symbol>linknet Tara pops in 30 minutes /tell taratime join<end>

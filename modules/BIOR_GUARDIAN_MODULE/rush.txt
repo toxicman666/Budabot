@@ -1,0 +1,22 @@
+<header>::::: Rush Commands :::::<end>
+
+<highlight>Command to rush<end>
+<tab><symbol>rush
+
+<highlight>Command to rush box<end>
+<tab><symbol>box
+
+<highlight>Command to rush troom<end>
+<tab><symbol>troom
+
+<highlight>Command to rush 2nd room before troom<end>
+<tab><symbol>2troom
+
+<highlight>Command to rush platform<end>
+<tab><symbol>plat
+
+<highlight>Command to gather in 100%<end>
+<tab><symbol>100
+
+<highlight>Clans incoming<end>
+<tab><symbol>inc

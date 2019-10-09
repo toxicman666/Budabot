@@ -1,0 +1,19 @@
+<header>:::: Raidlist help ::::<end>
+
+<highlight>Display raidlist<end>
+<tab><symbol>raidlist
+
+<highlight>Check players in raid present<end>
+<tab><symbol>raidcheck
+
+<highlight>Add player to raidlist<end>
+<tab><symbol>raidadd 'name'
+
+<highlight>Add all players in chat to raidlist<end>
+<tab><symbol>raidadd all
+
+<highlight>Remove player from raidlist<end>
+<tab><symbol>raidkick 'name'
+
+<highlight>Add player to raidlist without checks (moderators only)<end>
+<tab><symbol>forceadd 'name'

@@ -2,7 +2,7 @@
 
 if (preg_match("/^replacemods ([a-z0-9- ]+)$/i", $message, $arr) && $sender == "Warleaders"){
 
-	$war_mods_group = 2;
+	$tara_mods_group = 8;
 	// remove old mods (make them rl)
 	forEach ($chatBot->admins as $who => $data){
 		if ($chatBot->admins[$who]["level"] == 3){
@@ -15,9 +15,9 @@ if (preg_match("/^replacemods ([a-z0-9- ]+)$/i", $message, $arr) && $sender == "
 					$db->query("SELECT ag.id, ag.email, orgname, orgrank FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username WHERE jo.name = '$who';");
 					if($db->numrows()>0){
 						$row = $db->fObject();
-						$db->query("SELECT id, group_id FROM omnihqdb.jos_agora_user_group WHERE user_id = {$row->id} AND group_id = {$war_mods_group};");
+						$db->query("SELECT id, group_id FROM omnihqdb.jos_agora_user_group WHERE user_id = {$row->id} AND group_id = {$tara_mods_group};");
 						if($db->numrows()>0){
-							$db->exec("DELETE FROM omnihqdb.jos_agora_user_group WHERE user_id = {$row->id} AND group_id = {$war_mods_group};");
+							$db->exec("DELETE FROM omnihqdb.jos_agora_user_group WHERE user_id = {$row->id} AND group_id = {$tara_mods_group};");
 						}
 					}
 				}
@@ -47,9 +47,9 @@ if (preg_match("/^replacemods ([a-z0-9- ]+)$/i", $message, $arr) && $sender == "
 				$db->query("SELECT ag.id, ag.email, orgname, orgrank FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username WHERE jo.name = '$mod';");
 				if($db->numrows()>0){
 					$row = $db->fObject();
-					$db->query("SELECT id, group_id FROM omnihqdb.jos_agora_user_group WHERE user_id = {$row->id} AND group_id = {$war_mods_group};");
+					$db->query("SELECT id, group_id FROM omnihqdb.jos_agora_user_group WHERE user_id = {$row->id} AND group_id = {$tara_mods_group};");
 					if($db->numrows()===0){
-						$db->exec("INSERT INTO omnihqdb.jos_agora_user_group (user_id, group_id, role_id) VALUES ({$row->id}, {$war_mods_group}, 2);");
+						$db->exec("INSERT INTO omnihqdb.jos_agora_user_group (user_id, group_id, role_id) VALUES ({$row->id}, {$tara_mods_group}, 2);");
 						$chatBot->send("You got access to <myname> Moderators forum", $mod);
 					}
 				}

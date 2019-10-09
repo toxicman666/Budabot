@@ -29,7 +29,7 @@
 //	Command::activate("guild", "$MODULE_NAME/remrl.php", "remrl", "mod");
 
 	Command::activate("msg", "$MODULE_NAME/emailmelogs.php", "emailmelogs", "mod");
-	
+
 	Command::activate("msg", "$MODULE_NAME/adminlist.php", "adminlist");
 	Command::activate("priv", "$MODULE_NAME/adminlist.php", "adminlist");
 //	Command::activate("guild", "$MODULE_NAME/adminlist.php", "adminlist");
@@ -43,7 +43,7 @@
 	Event::activate("setup", "$MODULE_NAME/upload_admins.php");
 	
 	Setting::add($MODULE_NAME, 'alts_inherit_admin', 'Alts inherit admin privileges from main', 'edit', "options", 0, "true;false", "1;0", 'mod');
-	Setting::add($MODULE_NAME, 'moderator_forums', 'Add moderators to forum group', 'edit', "options", 0, "true;false", "1;0", 'mod');
+	Setting::add($MODULE_NAME, 'moderator_forums', 'Add moderators to forum group', 'edit', "options", 1, "true;false", "1;0", 'mod');
 	
 	//Help Files
 	Help::register($MODULE_NAME, "admin", "admin.txt", "mod", "Mod/Admin Help file");

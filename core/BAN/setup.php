@@ -29,9 +29,9 @@
    ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
    */
 
-$db->query("CREATE TABLE IF NOT EXISTS banlist (name VARCHAR(25) NOT NULL PRIMARY KEY, admin VARCHAR(25), time INT, reason TEXT, banend INT, char_id INT, org_ban BOOLEAN)");
+$db->query("CREATE TABLE IF NOT EXISTS banlist_<myname> (name VARCHAR(25) NOT NULL PRIMARY KEY, admin VARCHAR(25), time INT, reason TEXT, banend INT, char_id INT, org_ban BOOL)");
 
-$db->query("CREATE TABLE IF NOT EXISTS banhistory (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(25), admin VARCHAR(25), time INT, reason TEXT, banend INT, length INT, char_id INT, org_ban BOOLEAN, wasbannedby VARCHAR(25) DEFAULT NULL)");
+$db->query("CREATE TABLE IF NOT EXISTS banhistory_<myname> (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, name VARCHAR(25), admin VARCHAR(25), time INT, reason TEXT, banend INT, length INT, char_id INT, org_ban BOOLEAN, wasbannedby VARCHAR(25) DEFAULT NULL)");
 
 Ban::upload_banlist();
 

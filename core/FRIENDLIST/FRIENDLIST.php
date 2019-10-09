@@ -13,8 +13,6 @@
 //	Command::activate("priv", "$MODULE_NAME/addbuddy.php", "addbuddy", "admin");
 //	Command::activate("guild", "$MODULE_NAME/addbuddy.php", "addbuddy", "admin");
 	
-	Event::activate("24hrs", "$MODULE_NAME/friendlist_clean.php");	
-
 	// Help files
 	Help::register($MODULE_NAME, "friendlist", "friendlist.txt", "admin", "Commands for viewing and manually changing the friend list");
 ?>

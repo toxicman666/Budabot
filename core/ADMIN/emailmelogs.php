@@ -10,7 +10,7 @@ $found = false;
 $group_id_confirmed = 4;  // confirmed users forum group
 $main = Alts::get_main($sender);
 
-$sql = "SELECT ag.id, ag.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username LEFT JOIN omnihqdb.jos_agora_user_group gr ON gr.user_id=ag.id WHERE jo.name='$main' AND gr.group_id = $group_id_confirmed;";
+$sql = "SELECT ag.id, jo.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username LEFT JOIN omnihqdb.jos_agora_user_group gr ON gr.user_id=ag.id WHERE jo.name='$main' AND gr.group_id = $group_id_confirmed;";
 $db->query($sql);
 if ($db->numrows() > 0) {
 	$row = $db->fObject();
@@ -19,7 +19,7 @@ if ($db->numrows() > 0) {
 	$alts = Alts::get_alts($main);
 	if(count($alts)>0) foreach($alts as $alt){
 		if ($alt==$sender) continue;
-		$sql = "SELECT ag.id, ag.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username LEFT JOIN omnihqdb.jos_agora_user_group gr ON gr.user_id=ag.id WHERE jo.name='$alt' AND gr.group_id = $group_id_confirmed;";
+		$sql = "SELECT ag.id, jo.email FROM omnihqdb.jos_users jo JOIN omnihqdb.jos_agora_users ag ON jo.username = ag.username LEFT JOIN omnihqdb.jos_agora_user_group gr ON gr.user_id=ag.id WHERE jo.name='$alt' AND gr.group_id = $group_id_confirmed;";
 		$db->query($sql);
 		if ($db->numrows() > 0) {
 			$row = $db->fObject();

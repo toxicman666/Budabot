@@ -8,3 +8,6 @@
 
 <highlight>Check after orgs<end>
 <tab><symbol>check org
+
+<highlight>Check people on raidlist<end>
+<tab><symbol>raidcheck

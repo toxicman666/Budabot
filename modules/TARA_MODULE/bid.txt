@@ -1,0 +1,18 @@
+<header>:::: Help on bidding ::::<end>
+
+To bid: <highlight>/tell taratime bid &lt;number of points&gt;<end>
+or to bid all you have: <highlight>/tell taratime bid all<end>
+
+To withdraw your bid: <highlight>/tell taratime unbid<end>
+
+To check your points: <highlight>/tell taratime !points<end>
+
+You can make a bid of 0 points.
+
+Unlike on some other bots, there is no 'cost to bid'.
+
+If you win, you will pay the value of the highest LOSING bid.  (This is called a Vickrey auction.)
+
+If you are the only bidder, you will automatically get the item for 0 points.
+
+Make sure you are bidding on the right item.  There are NO REFUNDS if you change your mind after winning!

@@ -22,5 +22,5 @@
 	Setting::add($MODULE_NAME, 'default_unknown_color', "default unknown color", 'edit', "color", "<font color='#FF0000'>");
 
 	//Help Files
-	Help::register($MODULE_NAME, "settings", "settings.txt", "admin", "Change Settings of the Bot");
+	Help::register($MODULE_NAME, "settings", "settings.txt", "mod", "Change Settings of the Bot");
 ?>

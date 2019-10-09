@@ -1,0 +1,24 @@
+<header>::::: Raid and Loot history :::::<end>
+
+<highlight>Display last 20 raids<end>
+<tab><symbol>raidhistory
+
+<highlight>Display particular raid<end>
+<tab><symbol>raidhistory 'raid_id'
+
+<highlight>Display raidhistory for a player<end>
+<tab><symbol>raidhistory 'player_name'
+
+<highlight>Display last 40 items won<end>
+<tab><symbol>loothistory
+
+<highlight>Display history for particular item<end>
+<tab><symbol>loothistory 'item_name'
+
+<highlight>Display your loot history<end>
+<tab><symbol>lootplayer
+<tab><symbol>won
+
+<highlight>Display loot history for player<end>
+<tab><symbol>lootplayer 'player_name'
+<tab><symbol>won 'player_name'

@@ -2,7 +2,10 @@
 
 forEach ($chatBot->banlist as $ban){
 	if ($ban->banend != null && ((time() - $ban->banend) >= 0)) {
-	 	 $db->exec("DELETE FROM banlist WHERE name = '{$ban->name}'");
+	 	 $db->exec("DELETE FROM banlist_<myname> WHERE name = '{$ban->name}'");
+		 
+		 
+		$group_id_tara = 6; // tara	
 		 
 		// unban on forums
 		$main = Alts::get_main($ban->name);		
@@ -14,7 +17,7 @@ forEach ($chatBot->banlist as $ban){
 		if ($db->numrows() != 0) {
 			$row = $db->fObject();
 			$ag_id = $row->id;
-			$sql = "UPDATE omnihqdb.jos_agora_user_group SET role_id=2 WHERE user_id={$ag_id} AND role_id=1;";
+			$sql = "UPDATE omnihqdb.jos_agora_user_group SET role_id=2 WHERE user_id={$ag_id} AND role_id=1 AND group_id='{$group_id_tara}';";
 			$db->exec($sql);
 		}
 		// check if alts registered
@@ -24,7 +27,7 @@ forEach ($chatBot->banlist as $ban){
 			if ($db->numrows() != 0) {
 				$row = $db->fObject();
 				$ag_id = $row->id;
-				$sql = "UPDATE omnihqdb.jos_agora_user_group SET role_id=2 WHERE user_id={$ag_id} AND role_id=1;";
+				$sql = "UPDATE omnihqdb.jos_agora_user_group SET role_id=2 WHERE user_id={$ag_id} AND role_id=1 AND group_id='{$group_id_tara}';";
 				$db->exec($sql);
 			}
 		}

@@ -1,6 +1,6 @@
 <?php
 
-if (preg_match("/^addmod (.+)$/i", $message, $arr)){
+if (preg_match("/^addmod ([a-z0-9-]+)$/i", $message, $arr)){
 	$who = ucfirst(strtolower($arr[1]));
 
 	if ($chatBot->get_uid($who) == NULL){
@@ -53,7 +53,7 @@ if (preg_match("/^addmod (.+)$/i", $message, $arr)){
 			}
 		}
 	}
-
+	
 	Buddylist::add($who, 'admin');
 } else {
 	$syntax_error = true;

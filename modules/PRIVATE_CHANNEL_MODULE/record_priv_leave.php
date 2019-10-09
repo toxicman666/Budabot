@@ -6,6 +6,10 @@ if ($type == "leavePriv") {
 		$db->exec("DELETE FROM members_<myname> WHERE `name` = '$sender'");
 		Buddylist::remove($sender, 'member');	
 	}
+
+	if ($db->exec("UPDATE tara_raidlist SET leave_time=" . time() . " WHERE name='{$sender}';")===1){
+		$chatBot->data["TARA_MODULE"]["raidlist"][$sender]=time();
+	}	
 }
 
 ?>

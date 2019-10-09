@@ -36,8 +36,6 @@ if (preg_match("/^basetopic ([0-9a-z]+) ([0-9]+)$/i", $message, $arr) || preg_ma
 			
 			$rally_arr=explode(' ',$rally);
 			$rally="(Rally: <a href=\"text://<center><a href='chatcmd:///waypoint {$rally_arr[1]} {$rally_arr[2]} {$rally_arr[0]}' style='text-decoration:none'><font color=CCInfoHeader>Get waypoint<br><font color=CCLinkColor><img src='rdb://11336'><br>{$rally_arr[1]}x{$rally_arr[2]}</font></a></center>\">{$rally_arr[1]}x{$rally_arr[2]}</a>) ";			
-		} else {
-			Setting::save('rally', "");
 		}
 		
 		if ($additional_comment != '') {

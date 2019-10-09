@@ -1,0 +1,17 @@
+<font color=CCInfoHeader>This is a tradeskill/upgrade item</font>
+
+This item can be combined with an RBP to make
+<img src=rdb://268734>
+<a href=itemref://275381/275381/1>Empowered Robust Backpack</a>
+
+This item can be combined with a GPH to make
+<img src=rdb://82924>
+<a href=itemref://275412/275412/1>Notum Imbued Gaily Painted Hood</a>
+
+This item can be combined with an EoT to make
+<img src=rdb://158280>
+<a href=itemref://275422/275422/1>Honed Edge of Tarasque</a>
+
+This item can be combined with a GoC to make
+<img src=rdb://290363>
+<a href=itemref://275423/275423/1>Imbued Globe of Clarity</a>

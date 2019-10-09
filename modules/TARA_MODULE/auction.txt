@@ -1,0 +1,11 @@
+<header>How a Vickrey auction works<end>
+
+In a Vickrey auction, the winner pays the value of the HIGHEST LOSING BID.
+
+This means that you will normally pay less than you actually bid, unless somebody else bid exactly the same amount as you.
+
+It also means that you might see somebody else win and pay the amount of points you bid - this is because that person actually bid MORE than you, and your bid was the second highest bid.
+
+If two or more people are tied on the highest bid, then the item is rolled between them, and the winner pays the full amount of the highest bid (because in this case, the highest losing bid is the same as the winning bid.)
+
+If only one person bids, then the highest losing bid is considered to be 0 points, so the bidder gets the item for free.

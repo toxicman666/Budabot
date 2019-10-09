@@ -1,0 +1,7 @@
+<header>::::: Registering a character :::::<end>
+
+<highlight>In order to register to the bot a person requires to read and accept the rules<end>
+Command:
+<tab><symbol>register
+
+<highlight>Forum registration at www.omnihq.net is optional

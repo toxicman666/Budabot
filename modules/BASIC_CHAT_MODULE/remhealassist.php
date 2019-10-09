@@ -38,7 +38,8 @@ if (preg_match("/^remheal ([a-z0-9-]+)$/i", $message, $arr)) {
 	}
 } else if (preg_match("/^remheal$/i", $message)) {
 	Setting::save('healassist', '');
-	$chatBot->send("HealAssist was cleared.",$sendto);
+	if ($sendto!='prv') $chatBot->send("HealAssist was cleared.",$sender);
+	$chatBot->send("HealAssist was cleared by <highlight>{$sender}<end>.",'priv');	
 } else {
 	$syntax_error = true;
 }

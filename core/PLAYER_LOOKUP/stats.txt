@@ -1,0 +1,17 @@
+<header>:::: Register help ::::<end>
+
+<highlight>Display bot rules<end>
+<tab><symbol>rules
+
+<highlight>Register with bot<end>
+<tab><symbol>register
+
+<highlight>Update your guild/lvl info<end>
+<tab><symbol>update
+
+<red>Only use commands below from your main<end>
+<highlight>Confirm your forum username<end>
+<tab><symbol>confirm 'email@address'
+
+<highlight>Check your forum status<end>
+<tab><symbol>forums

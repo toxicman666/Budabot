@@ -29,7 +29,7 @@
    ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
    */
 
-if (preg_match("/^addrl (.+)$/i", $message, $arr)) {
+if (preg_match("/^addrl ([a-z0-9-]+)$/i", $message, $arr)) {
 	$who = ucfirst(strtolower($arr[1]));
 	
 	if ($chatBot->get_uid($who) == NULL){
@@ -56,7 +56,7 @@ if (preg_match("/^addrl (.+)$/i", $message, $arr)) {
 		$chatBot->send("<highlight>$who<end> has been demoted to a raidleader.", $sendto);
 		$chatBot->send("You have been demoted to raidleader", $who);
 		$db->exec("UPDATE admin_<myname> SET `adminlevel` = 2 WHERE `name` = '$who'");
-		$chatBot->admins[$who]["level"] = 3;
+		$chatBot->admins[$who]["level"] = 2;
 	} else {
 		$db->exec("INSERT INTO admin_<myname> (`adminlevel`, `name`) VALUES (2, '$who')");
 		$chatBot->admins[$who]["level"] = 2;

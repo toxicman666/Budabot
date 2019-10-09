@@ -1,36 +1,8 @@
 <?php
-   /*
-   ** Author: Derroylo (RK2)
-   ** Description: Set and show Timers 
-   ** Version: 1.3
-   **
-   ** Developed for: Budabot(http://sourceforge.net/projects/budabot)
-   **
-   ** Date(created): 26.12.2005
-   ** Date(last modified): 30.01.2006
-   ** 
-   ** Copyright (C) 2005, 2006, 2007 Carsten Lohmann
-   **
-   ** Licence Infos: 
-   ** This file is part of Budabot.
-   **
-   ** Budabot is free software; you can redistribute it and/or modify
-   ** it under the terms of the GNU General Public License as published by
-   ** the Free Software Foundation; either version 2 of the License, or
-   ** (at your option) any later version.
-   **
-   ** Budabot is distributed in the hope that it will be useful,
-   ** but WITHOUT ANY WARRANTY; without even the implied warranty of
-   ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   ** GNU General Public License for more details.
-   **
-   ** You should have received a copy of the GNU General Public License
-   ** along with Budabot; if not, write to the Free Software
-   ** Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-   */
+
 
 $msg = "";
-if (preg_match("/^timers ([0-9]+)$/i", $message, $arr) || preg_match("/^timers ([0-9]+) (.+)$/i", $message, $arr)) {
+if (preg_match("/^timer ([0-9]+)$/i", $message, $arr) || preg_match("/^timer ([0-9]+) (.+)$/i", $message, $arr)) {
 	if ($arr[2] == '') {
 		$timer_name = 'PrimTimer';
 	} else {
@@ -60,7 +32,7 @@ if (preg_match("/^timers ([0-9]+)$/i", $message, $arr) || preg_match("/^timers (
 	$msg = "Timer has been set for $timerset.";
 		
     $chatBot->send($msg, $sendto);
-} else if (preg_match("/^timers (rem|del) (.+)$/i", $message, $arr)) {
+} else if (preg_match("/^timer (rem|del) (.+)$/i", $message, $arr)) {
 	$timer_name = strtolower($arr[2]);
 	
 	forEach ($chatBot->data["timers"] as $key => $timer) {
@@ -68,14 +40,9 @@ if (preg_match("/^timers ([0-9]+)$/i", $message, $arr) || preg_match("/^timers (
 		$owner = $timer->owner;
 
 		if (strtolower($name) == $timer_name) {
-			if ($owner == $sender) {
-				Timer::remove_timer($key, $name, $sender);
-					
-			  	$msg = "Removed timer <highlight>$name<end>.";
-			  	break;
-			} else if (($chatBot->guildmembers[$sender] <= $chatBot->settings['guild_admin_level']) || isset($chatBot->admins[$sender])) {
+			if ($owner == $sender || isset($chatBot->admins[$sender])) {
 				Timer::remove_timer($key, $name, $owner);
-
+					
 			  	$msg = "Removed timer <highlight>$name<end>.";
 			  	break;
 			} else {
@@ -89,8 +56,8 @@ if (preg_match("/^timers ([0-9]+)$/i", $message, $arr) || preg_match("/^timers (
 	}
 
     $chatBot->send($msg, $sendto);
-} else if (preg_match("/^timers ((([0-9]+)(d|day|days))?.?(([0-9]+)(h|hr|hrs))?.?(([0-9]+)(m|min|mins))?.?(([0-9]+)(s|sec|secs))?)$/i", $message, $arr) ||
-		preg_match("/^timers ((([0-9]+)(d|day|days))?.?(([0-9]+)(h|hr|hrs))?.?(([0-9]+)(m|min|mins))?.?(([0-9]+)(s|sec|secs))?) (.+)$/i", $message, $arr2)) {
+} else if (preg_match("/^timer ((([0-9]+)(d|day|days))?.?(([0-9]+)(h|hr|hrs))?.?(([0-9]+)(m|min|mins))?.?(([0-9]+)(s|sec|secs))?)$/i", $message, $arr) ||
+		preg_match("/^timer ((([0-9]+)(d|day|days))?.?(([0-9]+)(h|hr|hrs))?.?(([0-9]+)(m|min|mins))?.?(([0-9]+)(s|sec|secs))?) (.+)$/i", $message, $arr2)) {
 
 	if ($arr2) {
 		$arr = $arr2;
@@ -162,7 +129,7 @@ if (preg_match("/^timers ([0-9]+)$/i", $message, $arr) || preg_match("/^timers (
 	$msg = "Timer has been set for $timerset.";
 		
     $chatBot->send($msg, $sendto);
-} else if (preg_match("/^timers$/i", $message, $arr)) {
+} else if (preg_match("/^timer$/i", $message, $arr)) {
 	$num_timers = count($chatBot->data["timers"]);
 	if ($num_timers == 0) {
 		$msg = "No Timers running atm.";

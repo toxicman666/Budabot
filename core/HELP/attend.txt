@@ -1,0 +1,19 @@
+<header>:::: Attending Raid ::::<end>
+
+<highlight>Display raidlist<end>
+<tab><symbol>raidlist
+
+<highlight>See your points<end>
+<tab><symbol>points
+
+<highlight>Display assist macro<end>
+<tab><symbol>assist
+
+<highlight>Display healassist macro<end>
+<tab><symbol>heal
+
+<highlight>Bid on item<end>
+<tab><symbol>bid '123'
+
+<highlight>Remove your bid<end>
+<tab><symbol>unbid

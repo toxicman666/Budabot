@@ -1,0 +1,5 @@
+<font color=CCInfoHeader>This is a tradeskill/upgrade item</font>
+
+This item can be upgraded with a Nanobot Infusion Device to make
+<img src=rdb://82924>
+<a href=itemref://275412/275412/1>Notum Imbued Gaily Painted Hood</a>

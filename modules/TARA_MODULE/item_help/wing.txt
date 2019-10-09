@@ -1,0 +1,5 @@
+<font color=CCInfoHeader>This is a tradeskill/upgrade item</font>
+
+This item can be tradeskilled to make
+<img src=rdb://13238>
+<a href=itemref://158792/158792/1>Living Dragonwing Arms Armor</a>

@@ -1,0 +1,84 @@
+<header>:::: Taratime rules ::::<end>
+
+1. Points and raid lists.
+
+1.1 Points will be awarded ONLY as described below:
+- Tara kill points (2 points) are awarded when Omni kills Tarasque and obtains loot, with or without PVP. (There are no additional points for Administrator DeValos.)
+- PVP points (6 points if Omni controls the T room at the time Tarasque dies, 2 points otherwise) are awarded when a PVP engagement takes place prior to killing Tarasque, and the Clan numbers are at least 75% of the Omni numbers.
+- Early bird points (2 points) may be offered as a bonus to players who arrive early, when there is reason to believe that Clan are gathering at least 1 hour before the expected spawn time.
+
+1.2 To receive half Tara kill points, you must attend the raid with a level 150+ character. To receive half PVP or Early bird points, you must attend with a level 175+ character. To receive full points, you must attend with a level 200+ character.
+
+1.3 It's your responsibility to ensure that you are added to the raid list (even if you need to ask more than once). If the raid leader asks you to stand in a particular location to be added then you must cooperate with this request.
+
+1.4 If you leave the raid or choose not to return after dying, then you will be removed from the raid list. It's your responsibility to ensure that this happens.
+
+1.5 If you are in control of more than one character at the raid, then only ONE of the characters you're controlling may be in the raid list. It's your responsibility to ensure that this is the case.
+
+1.6 The raid leader may close the raid list, no earlier than 15 minutes before the expected spawn time, with at least 15 minutes notice of closure on Linknet. After the raid list is closed, no additional players will be added for the current raid; however the raid leader may choose to reopen the raid list if the raid subsequently becomes a PVP raid.
+
+
+2. Alt registration.
+
+2.1 You may register any number of your own level 100+ Omni and Neutral alts on Taratime. You MUST NOT register other people's characters as your alts.
+
+2.2 Two characters which have ever received points at the same raid cannot be registered as alts of the same player.
+
+2.3 Once registered, alts cannot be removed and will be able to spend any points that you earn now or in the future.
+
+
+3. Loot distribution.
+
+3.1 All loot from Tarasque and Administrator DeValos will be auctioned using the bot's Vickrey auction system. You must be in the raid list to bid. If you want an item but are not willing to spend points on it then you should bid 0 points in the auction.
+
+3.2 If you win a NODROP item, then you can loot it with any character which is REGISTERED AS YOUR ALT ON TARATIME and which meets the item's profession requirements. You will NOT be allowed to loot NODROPs with unregistered alts.
+
+3.3 You don't need to bid with the character which will loot, but if you intend to re-log to a different alt to loot a NODROP then it is your responsibility to ensure that your alt is logged in a safe place in the T-room before the raid. It is NOT the raid leader's responsibility to arrange an escort for alts which are logged elsewhere.
+
+3.4 You must collect your loot as quickly as possible. If you don't collect NODROP loot within within 10 minutes then it may be re-auctioned or deleted. If you don't collect tradable loot within 10 minutes then the raid leader may leave Camelot and you will need to arrange a mutually convenient time to collect it.
+
+3.5 You will receive a full refund if and only if you were unable to collect an item that you won for reasons BEYOND YOUR CONTROL. Due to the nature of Vickrey auctions, your bid may affect how much other people pay for items even if you don't win, therefore it's not possible to refund points if you change your mind after winning an auction.
+
+
+4. Behavior at raids.
+
+4.1 You must follow the raid leader's instructions within the scope of the raid, promptly and without argument.
+
+4.2 You must not argue, bicker, abuse other players, use offensive language or spam unnecessarily in Taratime, or in vicinity or shouts in Camelot.
+
+4.3 You must not attack anybody who is participating in a Taratime raid, or who is on the way out of Camelot after participating in a Taratime raid, except in self defense.
+
+4.4 If you appear to be AFK, or are not in area designated by the raid leader, then you will be kicked from the raid.
+
+4.5 If you die then you must return to Camelot as quickly as possible.
+
+
+5. Leading raids.
+
+5.1 If you take lead, then you are responsible for adding players to the raid list, leading any PVP engagement which takes place, organizing the Tara kill, awarding points in accordance with the rules, and auctioning the loot. You must not take lead unless you are willing and able to perform these tasks.
+
+5.2 You must not go AFK with lead, or keep lead if you are not currently leading a raid.
+
+5.3 If you are listed as a raid leader on the admin list then you have the right to insist on taking over from a non-listed raid leader, but you should only do so if you are prepared to lead the remainder of the raid. In all other circumstances, you must respect the authority of the current leader and not involve yourself in leading unless the current leader asks you to help.
+
+5.4 You may use the !linknet/!spam command on Taratime ONLY to send messages relating to Tarasque raids.
+
+5.5 Moderators are responsible for enforcing the rules. You must respect their authority to do so.
+
+
+6. Notum Wars.
+
+6.1 Any tower battle in which the majority of participating characters are level 175+, takes priority over Tarasque and you will be expected to attend the tower battle instead of Tarasque. If and only if they can be spared from the battle, then a small force may be dispatched to Camelot to kill Tarasque and everybody present at the tower battle will be added to the Taratime raid list for this kill. If you refuse to attend the tower battle under these circumstances, then you will not be added to the raid list. (This rule will NOT apply when the Omni leader at the battle indicates that it is 'just a grief', or in the case of Omni attacking Clan towers with fewer than 20 people.)
+
+6.2 If you leave a Taratime raid to take part in a tower defense of any level then you will be allowed to stay in the raid list, but you must return to Camelot if the defense finishes before Tarasque is killed.
+
+
+7. General.
+
+7.1 If you participate in any attempt to kill Tarasque or Administrator DeValos outside of the Taratime system while Taratime is online and functioning, or if you ninja loot or ninja delete from Tarasque or Administrator DeValos after it was killed by a Taratime raid, then you will be banned from Taratime, whether or not you were in Taratime at the time of the incident.
+
+7.2 If you have an active Clan main, or support the Clan faction (or oppose Omni) in any way at Tarasque or in Notum Wars, or join an organization which participates in attacks on Omni towers, or spy on or abuse Taratime or any other Omni PVP bot in any way, then you will be banned from Taratime.
+
+7.3 Any form of dishonesty involving points, loot or the application of these rules will be punished severely.
+
+7.4 All communication in or relating to Taratime will be in English.

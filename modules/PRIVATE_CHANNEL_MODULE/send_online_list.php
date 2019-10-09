@@ -1,8 +1,8 @@
 <?php
 
-
 	if (count($chatBot->chatlist) > 0) {
-		$db->query("SELECT p.*, o.name as name, o.afk FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE `channel_type` = 'priv' AND added_by = '<myname>' ORDER BY `profession`, `level` DESC");
+		$playersdb = Player::get_players_db();
+		$db->query("SELECT p.*, o.name as name, o.afk FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE `channel_type` = 'priv' AND added_by = '<myname>' ORDER BY `profession`, `level` DESC");
 		$numguest = $db->numrows();
 
 		$list = "<header> {$numguest} player(s) currently in chat<end>\n\n";
@@ -14,14 +14,14 @@
 		usort($players,"name_sort");		
 		foreach($players as $row){
 			$main = Alts::get_main($row->name);
-			$alts = Alts::get_alts($main);		
-		
+			$alts = Alts::get_alts($main);	
+			
 			$altsblob = "";
 			if(count($alts)>0){
 				if($main!=$row->name) $altsblob = Text::make_link("Alts of $main", "/tell <myname> !alts {$main}", 'chatcmd');
 				else $altsblob = Text::make_link("Alts", "/tell <myname> !alts {$main}", 'chatcmd');
 			}
-				
+			
 			$dash = false;
 			if(Setting::get('show_prof_in_sm')==1){
 				if ($row->profession == null) {

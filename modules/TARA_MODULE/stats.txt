@@ -1,0 +1,13 @@
+<header>::::: Statistics Commands :::::<end>
+
+<highlight>Show top 50 points<end>
+<tab><symbol>top
+
+<highlight>Show top month/overall statistics<end>
+<tab><symbol>top stats
+
+<highlight>Show your statistics<end>
+<tab><symbol>stats
+
+<highlight>Show player statistics<end>
+<tab><symbol>stats 'player'

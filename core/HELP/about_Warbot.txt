@@ -1,6 +1,0 @@
-<header> :::::: Warbot :::::: <end>
-
-<highlight>Omni-tek notum wars bot. (tl7)<end>
-<highlight>Forums:<end> <a href='chatcmd:///start http://www.omnihq.net'>http://www.omnihq.net</a>
-
-<orange>- Restricted to Omni/Neut 201+<end>

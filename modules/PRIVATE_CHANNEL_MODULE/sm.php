@@ -2,7 +2,8 @@
 
 if (preg_match("/^sm (org|orgs)$/i", $message)){
 	if (count($chatBot->chatlist) > 0) {
-		$db->query("SELECT p.*, o.name as name, o.afk FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE `channel_type` = 'priv' AND added_by = '<myname>' ORDER BY `profession`, `level` DESC");
+		$playersdb = Player::get_players_db();
+		$db->query("SELECT p.*, o.name as name, o.afk FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE `channel_type` = 'priv' AND added_by = '<myname>' ORDER BY `profession`, `level` DESC");
 
 	    while ($row = $db->fObject()) {
 			$players[]=$row;
@@ -36,7 +37,8 @@ if (preg_match("/^sm (org|orgs)$/i", $message)){
 } else if (preg_match("/^sm$/i", $message) || preg_match("/^sm (.+)$/i", $message, $arr)) {
 	if($arr[1]!=null) $org_match = $arr[1];
 	if (count($chatBot->chatlist) > 0) {
-		$db->query("SELECT p.*, o.name as name, o.afk FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE `channel_type` = 'priv' AND added_by = '<myname>' ORDER BY `profession`, `level` DESC");
+		$playersdb = Player::get_players_db();
+		$db->query("SELECT p.*, o.name as name, o.afk FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE `channel_type` = 'priv' AND added_by = '<myname>' ORDER BY `profession`, `level` DESC");
 		$numguest = $db->numrows();
 
 		$afkcount=0;
@@ -49,12 +51,12 @@ if (preg_match("/^sm (org|orgs)$/i", $message)){
 		foreach($players as $row){
 			if($org_match==null || $row->guild==$org_match){
 				$main = Alts::get_main($row->name);
-				$alts = Alts::get_alts($main);
 				$altsblob = "";
 				if(count($alts)>0){
 					if($main!=$row->name) $altsblob = Text::make_link("Alts of $main", "/tell <myname> !alts {$main}", 'chatcmd');
 					else $altsblob = Text::make_link("Alts", "/tell <myname> !alts {$main}", 'chatcmd');
 				}
+				
 				$dash = false;
 				if(Setting::get('show_prof_in_sm')==1||$org_match!=null){
 					if ($row->profession == null) {

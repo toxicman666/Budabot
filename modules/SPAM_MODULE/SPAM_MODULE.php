@@ -6,4 +6,6 @@
 	
 	Setting::add($MODULE_NAME, "otspambot", "Omni news relay bot", "noedit", "text", "Linknet", "", "", "admin");
 	
+	Help::register($MODULE_NAME, "spam", "spam.txt", "all", "Spam commands");
+	
 ?>

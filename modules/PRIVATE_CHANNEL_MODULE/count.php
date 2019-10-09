@@ -1,5 +1,6 @@
 <?php
 
+
 if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 	$tl1 = 0;
 	$tl2 = 0;
@@ -9,7 +10,8 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 	$tl6 = 0;
 	$tl7 = 0;
 	
-	$db->query("SELECT * FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv'");
+	$playersdb = Player::get_players_db();
+	$db->query("SELECT * FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv'");
 	$numonline = $db->numrows();
 	$data = $db->fObject('all');
     forEach ($data as $row) {
@@ -29,7 +31,25 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
       		$tl7++;
 		}
     }
-    $msg = "<highlight>$numonline<end> in total: TL1 <highlight>$tl1<end>, TL2 <highlight>$tl2<end>, TL3 <highlight>$tl3<end>, TL4 <highlight>$tl4<end>, TL5 <highlight>$tl5<end>, TL6 <highlight>$tl6<end>, TL7 <highlight>$tl7<end>";
+    $msg = "<highlight>$numonline<end> in total: TL1 <highlight>{$tl1}<end>, TL2 <highlight>{$tl2}<end>, TL3 <highlight>{$tl3}<end>, TL4 <highlight>{$tl4}<end>, TL5 <highlight>{$tl5}<end>, TL6 <highlight>{$tl6}<end>, TL7 <highlight>{$tl7}<end>";
+    $chatBot->send($msg, $sendto);
+} else if (preg_match("/^count (froob|froobs)$/i", $message, $arr)) {
+
+	$froobs = array();
+	
+	$playersdb = Player::get_players_db();
+	$db->query("SELECT * FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv'");
+	$numonline = $db->numrows();
+	$data = $db->fObject('all');
+    forEach ($data as $row) {
+      	if ($row->level > 1 && $row->level <= 200 && $row->ai_level == 0) {
+      		$froobs[$row->name]=$row->level;
+		}
+    }
+    $msg = "<highlight>" . count($froobs) . "<end> froobs online:";
+	foreach($froobs as $name=>$lvl){
+		$msg .= " <highlight>{$name} {$lvl}<end>";
+	}
     $chatBot->send($msg, $sendto);
 } else if (preg_match("/^count (all|prof)$/i", $message)) {
     $online["Adventurer"] = 0;
@@ -47,7 +67,8 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 	$online["Trader"] = 0;
 	$online["Shade"] = 0;
 
-	$db->query("SELECT count(*) AS count, profession FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' GROUP BY `profession`");
+	$playersdb = Player::get_players_db();
+	$db->query("SELECT count(*) AS count, profession FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' GROUP BY `profession`");
 	/*
 	$numonline = $db->numrows();
 	$msg = "<highlight>$numonline<end> in total: ";	
@@ -82,7 +103,8 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 		return;
 	}
 
-	$sql = "SELECT `guild`, count(*) AS cnt, AVG(level) AS avg_level FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `guild` <> '' GROUP BY `guild` ORDER BY `cnt` DESC, `avg_level` DESC";
+	$playersdb = Player::get_players_db();
+	$sql = "SELECT `guild`, count(*) AS cnt, AVG(level) AS avg_level FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `guild` <> '' GROUP BY `guild` ORDER BY `cnt` DESC, `avg_level` DESC";
 	$db->query($sql);
 	$numorgs = $db->numrows();
 	
@@ -146,7 +168,8 @@ if (preg_match("/^count (level|lvl)$/i", $message, $arr)) {
 			return;
     }
    
-	$db->query("SELECT * FROM online_<myname> o LEFT JOIN players p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `profession` = '$prof' ORDER BY `level`");
+	$playersdb = Player::get_players_db();
+	$db->query("SELECT * FROM online_<myname> o LEFT JOIN {$playersdb} p ON o.name = p.name WHERE added_by = '<myname>' AND channel_type = 'priv' AND `profession` = '$prof' ORDER BY `level`");
     $numonline = $db->numrows();
 	$data = $db->fObject('all');
     $msg = "<highlight>$numonline<end> $prof:";

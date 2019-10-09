@@ -1,0 +1,10 @@
+<header>:::: Points help ::::<end>
+
+<highlight>Show your points<end>
+<tab><symbol>mypoints
+
+<highlight>Show player's points<end>
+<tab><symbol>points 'name'
+
+<highlight>Show top 50 points<end>
+<tab><symbol>top

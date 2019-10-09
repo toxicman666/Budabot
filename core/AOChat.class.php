@@ -388,8 +388,7 @@ class AOChat {
 		}
 
 		$uid = $this->lookup_user($user);
-	//	$uid = $this->fixunsigned($user);
-		
+
 		if ($uid === false || $uid == 0 || $uid == -1 || $uid == 0xffffffff || !$this->is_really_numeric($uid)) {
 			return false;
 		}
@@ -402,7 +401,6 @@ class AOChat {
 			$num2 = -1 * bcsub("4294967296", "" . $num);
 			return (int)$num2;
 		}
-	//	if ($num < -1) $num = bcadd("4294967296", "" . $num);
 
 		return (int)$num;
 	}

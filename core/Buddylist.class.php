@@ -26,7 +26,7 @@ class Buddylist {
 		global $chatBot;
 
 		$uid = $chatBot->get_uid($name);
-		if ($uid === false || $type === null || $type == '' || empty($name)) {
+		if ($uid === false || $type === null || $type == '') {
 			return false;
 		} else {
 			if (!isset($chatBot->buddyList[$uid])) {
@@ -40,7 +40,7 @@ class Buddylist {
 			}
 			
 			// add to forums
-			if ($type=='member' && Setting::get('wc_forum_members')==1){
+			if (Setting::get('wc_forum_members')==1 && $type=='member'){
 				$group_id_wc = 3; // warleaders
 				$role_id = 2; // member
 				$db = DB::get_instance();

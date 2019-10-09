@@ -71,7 +71,7 @@ if (preg_match("/^assist clear$/i", $message, $arr)) {
     if ($uid) {
 		$name = ucfirst(strtolower($name));
 		if (!isset($chatBot->chatlist[$name])) {
-			$msg = "Player <highlight>$name<end> isn't in this bot.";
+			$msg = "Player <highlight>$name<end> is not in bot.";
 			$chatBot->send($msg, $sendto);
 		} else {
 			Setting::save('assist', $name);

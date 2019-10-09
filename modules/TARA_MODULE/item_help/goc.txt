@@ -1,0 +1,5 @@
+<font color=CCInfoHeader>This is a tradeskill/upgrade item</font>
+
+This item can be upgraded with a Nanobot Infusion Device to make
+<img src=rdb://290363>
+<a href=itemref://275423/275423/1>Imbued Globe of Clarity</a>

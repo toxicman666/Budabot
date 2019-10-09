@@ -1,0 +1,52 @@
+<header>:::: Leading Raid ::::<end>
+
+<highlight>Take/remove lead<end>
+<tab><symbol>leader
+
+<highlight>Start raid<end>
+<tab><symbol>raidstart 'name'
+<tab><symbol>raidstart tara
+
+<highlight>Set assist<end>
+<tab><symbol>assist 'name1' 'name2'
+
+<highlight>Heal assist<end>
+<tab><symbol>heal 'name1' 'name2'
+
+<highlight>Close raid<end>
+<tab><symbol>raidclose
+
+<highlight>Update raid<end>
+<tab><symbol>raidupdate 'name'
+<tab><symbol>raidupdate pvpwin
+
+<highlight>Add person to raidlist<end>
+<tab><symbol>raidadd 'name'
+
+<highlight>Add all people in chat<end>
+<tab><symbol>raidadd all
+
+<highlight>Check if people present<end>
+<tab><symbol>raidcheck
+
+<highlight>Remove person from raidlist<end>
+<tab><symbol>raidkick 'name'
+
+<highlight>Award points<end>
+<tab><symbol>raidpoints
+
+<highlight>Show loot table<end>
+<tab><symbol>raidloot
+
+<highlight>Start auction<end>
+<tab><symbol>raidloot 'item'
+
+<highlight>End the raid after all items were rolled<end>
+<tab><symbol>raidend
+
+<highlight>Set spawntime (only listed raidleaders)<end>
+<tab><symbol>setspawntime 'timer'
+<green><tab><symbol>setspawntime 8h45m<end>
+
+<highlight>Quick ban (30 min ban - only listed raidleaders)<end>
+<tab><symbol>quickban 'name'
