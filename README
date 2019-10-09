@@ -1,7 +1,7 @@
 This is a fork of Budabot version 2.2_GA
 that was used as a core for building Warbot and Taratime bots for RK2 in 2010-2011.
 
-I have decided to publish all the code as is so maybe somebody could make use of it
+I have decided to publish all the code as is, so maybe somebody could make use of it
 and all the work doesn't go to waste.
 
 If you decide to fully use this source I would encourage you to PR your changes back to this fork.
@@ -24,6 +24,9 @@ Characters must be in an org and have at least 3rd rank to see tower messages
 
 Note: character names *may* be hardcoded in some of the source files.
 Make sure you fix it before you try to run the full operation.
+
+Website integration may require extra tables from Joomla 1.5 to manage users forum access.
+Delete or comment out the code that uses those tables if you're not planning to integrate forums.
 
 Running:
 
