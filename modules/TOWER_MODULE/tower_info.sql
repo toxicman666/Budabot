@@ -20,16 +20,7 @@
 --
 
 DROP TABLE IF EXISTS `tower_info`;
-CREATE TABLE `tower_info` (
-  `playfield_id` int(11) NOT NULL,
-  `site_number` smallint(6) NOT NULL,
-  `topic` varchar(255) NOT NULL default '',
-  `topic_by` varchar(45) NOT NULL default '',
-  `enabled` tinyint(1) NOT NULL default '1',
-  `x_rally` smallint(6) default NULL,
-  `y_rally` smallint(6) default NULL,
-  PRIMARY KEY  (`playfield_id`,`site_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `tower_info` (`playfield_id` int(11) NOT NULL, `site_number` smallint(6) NOT NULL, `topic` varchar(255) NOT NULL default '', `topic_by` varchar(45) NOT NULL default '', `enabled` tinyint(1) NOT NULL default '1', `x_rally` smallint(6) default NULL, `y_rally` smallint(6) default NULL, PRIMARY KEY  (`playfield_id`,`site_number`)) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tower_info`

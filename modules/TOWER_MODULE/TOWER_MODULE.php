@@ -6,6 +6,7 @@
 
 	DB::loadSQLFile($MODULE_NAME, "tower_attack");
 	DB::loadSQLFile($MODULE_NAME, "scout_info");
+	DB::loadSQLFile($MODULE_NAME, "scout_info_history");
 	DB::loadSQLFile($MODULE_NAME, "tower_site");
 	DB::loadSQLFile($MODULE_NAME, "tower_info");
 
