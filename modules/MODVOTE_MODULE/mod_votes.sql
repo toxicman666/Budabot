@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS mod_votes (`main` VARCHAR(20) NOT NULL, `org` VARCHAR(75) NOT NULL, `mod_id` INT NOT NULL, `vote` TINYINT);
